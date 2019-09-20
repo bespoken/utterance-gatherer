@@ -53,6 +53,7 @@
     "request-promise-native": "^1.0.7",
     "source-map-support": "^0.5.12",
     "stream-transcoder": "0.0.5",
+    "streamifier": "^0.1.1",
     "typescript": "3.5.2"
   },
   "devDependencies": {

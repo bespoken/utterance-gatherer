@@ -11,6 +11,7 @@ xcuserdata/
 .DS_Store
 .vscode/
 ZZidea
+newrelic_agent.log
 
 # Nubis
 nubis/librarian-puppet.tar.gz

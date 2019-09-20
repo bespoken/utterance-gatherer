@@ -1,5 +1,6 @@
 import { Localized } from 'fluent-react/compat';
 import * as React from 'react';
+import * as queryString from 'query-string';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { LOCALES, NATIVE_NAMES } from '../../services/localization';
@@ -139,9 +140,12 @@ class Layout extends React.PureComponent<LayoutProps, LayoutState> {
   };
 
   private selectLocale = async (locale: string) => {
-    const { setLocale, history } = this.props;
+    const { setLocale, history, location } = this.props;
+    const contractor = `${
+      queryString.parse(this.props.location.search).contractor
+    }`;
     trackGlobal('change-language', locale);
-    setLocale(locale);
+    setLocale(locale, contractor);
     history.push(replacePathLocale(history.location.pathname, locale));
   };
 

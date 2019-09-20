@@ -35,7 +35,7 @@ export namespace Sentences {
   export type Action = RefillAction | RemoveAction;
 
   export const actions = {
-    refill: () => async (
+    refill: (contractor: string = '') => async (
       dispatch: Dispatch<RefillAction>,
       getState: () => StateTree
     ) => {
@@ -45,7 +45,8 @@ export namespace Sentences {
           return;
         }
         const newSentences = await state.api.fetchRandomSentences(
-          CACHE_SET_COUNT
+          CACHE_SET_COUNT,
+          contractor
         );
         dispatch({
           type: ActionType.REFILL,

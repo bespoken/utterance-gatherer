@@ -1,4 +1,5 @@
 import { AllGoals, CustomGoalParams } from 'common/goals';
+import * as queryString from 'query-string';
 import { LanguageStats } from 'common/language-stats';
 import { UserClient } from 'common/user-clients';
 import { Locale } from '../stores/locale';
@@ -87,8 +88,12 @@ export default class API {
     return this.getLocalePath() + '/clips';
   }
 
-  fetchRandomSentences(count: number = 1): Promise<Sentences.Sentence[]> {
-    return this.fetch(`${this.getLocalePath()}/sentences?count=${count}`);
+  fetchRandomSentences(
+    count: number = 1,
+    contractor: string = ''
+  ): Promise<Sentences.Sentence[]> {
+    const query = queryString.stringify({ count, contractor });
+    return this.fetch(`${this.getLocalePath()}/sentences?${query}`);
   }
 
   fetchRandomClips(count: number = 1): Promise<Clip[]> {

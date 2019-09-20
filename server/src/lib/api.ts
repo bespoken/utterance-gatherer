@@ -7,6 +7,7 @@ import { getConfig } from '../config-helper';
 import Awards from './model/awards';
 import CustomGoal from './model/custom-goal';
 import getGoals, { getGoalsNew } from './model/goals';
+import { ImportedSentence } from './model/db';
 import UserClient from './model/user-client';
 import * as Basket from './basket';
 import Model from './model';
@@ -130,6 +131,11 @@ export default class API {
 
     router.post('/reports', this.createReport);
 
+    router.get(
+      '/import/sentences/:contractor/:locale',
+      this.importSentencesByLocale
+    );
+
     router.use('*', (request: Request, response: Response) => {
       response.sendStatus(404);
     });
@@ -137,12 +143,37 @@ export default class API {
     return router;
   }
 
+  importSentencesByLocale = async (request: Request, response: Response) => {
+    const { params } = request;
+    const { contractor, locale } = params;
+    try {
+      const sentencesFromS3: ImportedSentence[] = await this.bucket.getContractorSentencesByLocale(
+        contractor,
+        locale
+      );
+      await this.model.db.insertSentencesByLocale(
+        sentencesFromS3,
+        contractor,
+        locale
+      );
+    } catch (error) {
+      response.json({ status: 'importing FAIL' });
+    }
+    response.json({ status: 'importing SUCCESS' });
+  };
+
   getRandomSentences = async (request: Request, response: Response) => {
-    const { client_id, params } = request;
+    const { client_id, params, query } = request;
+    if (!query.contractor) {
+      response
+        .status(500)
+        .json({ error: 'the contractor parameter is required' });
+    }
     const sentences = await this.model.findEligibleSentences(
       client_id,
       params.locale,
-      parseInt(request.query.count, 10) || 1
+      parseInt(request.query.count, 10) || 1,
+      query.contractor
     );
 
     response.json(sentences);
