@@ -103,10 +103,10 @@ export default class Bucket {
         sentenceFile.Body as Buffer[],
         source
       );
-      return Promise.resolve(sentences);
+      return sentences;
     } catch (e) {
       console.log('aws error', e, e.stack);
-      return Promise.reject(e);
+      throw e;
     }
   }
 }
