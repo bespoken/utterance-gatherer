@@ -200,10 +200,16 @@ export default class Clip {
     { client_id, params, query }: Request,
     response: Response
   ): Promise<void> => {
+    if (!query.contractor) {
+      response
+        .status(500)
+        .json({ error: 'the contractor parameter is required' });
+    }
     const clips = await this.bucket.getRandomClips(
       client_id,
       params.locale,
-      parseInt(query.count, 10) || 1
+      parseInt(query.count, 10) || 1,
+      query.contractor
     );
     response.json(clips);
   };

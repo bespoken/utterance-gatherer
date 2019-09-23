@@ -48,7 +48,7 @@ export namespace Clips {
   export type Action = LoadAction | RefillCacheAction | RemoveClipAction;
 
   export const actions = {
-    refillCache: () => async (
+    refillCache: (contractor: string = '') => async (
       dispatch: Dispatch<RefillCacheAction | LoadAction>,
       getState: () => StateTree
     ) => {
@@ -59,7 +59,10 @@ export namespace Clips {
 
       try {
         dispatch({ type: ActionType.LOAD });
-        const clips = await state.api.fetchRandomClips(MIN_CACHE_SIZE);
+        const clips = await state.api.fetchRandomClips(
+          MIN_CACHE_SIZE,
+          contractor
+        );
         dispatch({
           type: ActionType.REFILL_CACHE,
           clips: clips.map(clip => {

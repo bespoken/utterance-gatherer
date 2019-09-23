@@ -96,8 +96,12 @@ export default class API {
     return this.fetch(`${this.getLocalePath()}/sentences?${query}`);
   }
 
-  fetchRandomClips(count: number = 1): Promise<Clip[]> {
-    return this.fetch(`${this.getClipPath()}?count=${count}`);
+  fetchRandomClips(
+    count: number = 1,
+    contractor: string = ''
+  ): Promise<Clip[]> {
+    const query = queryString.stringify({ count, contractor });
+    return this.fetch(`${this.getClipPath()}?${query}`);
   }
 
   uploadClip(blob: Blob, sentenceId: string, sentence: string): Promise<void> {

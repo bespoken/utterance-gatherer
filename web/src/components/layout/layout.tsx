@@ -141,9 +141,8 @@ class Layout extends React.PureComponent<LayoutProps, LayoutState> {
 
   private selectLocale = async (locale: string) => {
     const { setLocale, history, location } = this.props;
-    const contractor = `${
-      queryString.parse(this.props.location.search).contractor
-    }`;
+    let contractor = queryString.parse(this.props.location.search).contractor;
+    contractor = contractor && `${contractor}`;
     trackGlobal('change-language', locale);
     setLocale(locale, contractor);
     history.push(replacePathLocale(history.location.pathname, locale));

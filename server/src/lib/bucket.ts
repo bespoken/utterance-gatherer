@@ -36,9 +36,15 @@ export default class Bucket {
   async getRandomClips(
     client_id: string,
     locale: string,
-    count: number
+    count: number,
+    contractor: string
   ): Promise<{ id: number; glob: string; text: string; sound: string }[]> {
-    const clips = await this.model.findEligibleClips(client_id, locale, count);
+    const clips = await this.model.findEligibleClips(
+      client_id,
+      locale,
+      count,
+      contractor
+    );
     try {
       return await Promise.all(
         clips.map(async ({ id, path, sentence }) => {

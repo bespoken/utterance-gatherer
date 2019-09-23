@@ -59,12 +59,14 @@ export default class Model {
   async findEligibleClips(
     client_id: string,
     locale: string,
-    count: number
+    count: number,
+    contractor: string
   ): Promise<DBClipWithVoters[]> {
     return this.db.findClipsWithFewVotes(
       client_id,
       locale,
-      Math.min(count, 50)
+      Math.min(count, 50),
+      contractor
     );
   }
 

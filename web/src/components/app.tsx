@@ -171,9 +171,8 @@ let LocalizedPage: any = class extends React.Component<
   }: LocalizedPagesProps) {
     const [mainLocale] = userLocales;
     const pathname = history.location.pathname;
-    const contractor = `${
-      queryString.parse(this.props.location.search).contractor
-    }`;
+    let contractor = queryString.parse(this.props.location.search).contractor;
+    contractor = contractor && `${contractor}`;
     // Since we make no distinction between "en-US", "en-UK",... we redirect them all to "en"
     if (mainLocale.startsWith('en-')) {
       this.props.setLocale('en', contractor);

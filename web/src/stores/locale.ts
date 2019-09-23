@@ -30,7 +30,7 @@ export namespace Locale {
       });
       if (contributableLocales.includes(locale)) {
         dispatch(Sentences.actions.refill(contractor));
-        dispatch(Clips.actions.refillCache());
+        dispatch(Clips.actions.refillCache(contractor));
       }
     },
   };
