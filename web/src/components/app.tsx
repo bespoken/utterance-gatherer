@@ -1,4 +1,5 @@
 const { LocalizationProvider } = require('fluent-react/compat');
+import * as queryString from 'query-string';
 import * as React from 'react';
 import { Suspense } from 'react';
 import { connect, Provider } from 'react-redux';
@@ -170,19 +171,21 @@ let LocalizedPage: any = class extends React.Component<
   }: LocalizedPagesProps) {
     const [mainLocale] = userLocales;
     const pathname = history.location.pathname;
-
+    const contractor = `${
+      queryString.parse(this.props.location.search).contractor
+    }`;
     // Since we make no distinction between "en-US", "en-UK",... we redirect them all to "en"
     if (mainLocale.startsWith('en-')) {
-      this.props.setLocale('en');
+      this.props.setLocale('en', contractor);
       history.replace(replacePathLocale(pathname, 'en'));
       return;
     }
 
     if (!LOCALES.includes(mainLocale)) {
-      this.props.setLocale(DEFAULT_LOCALE);
+      this.props.setLocale(DEFAULT_LOCALE, contractor);
       history.replace(replacePathLocale(pathname, DEFAULT_LOCALE));
     } else {
-      this.props.setLocale(userLocales[0]);
+      this.props.setLocale(userLocales[0], contractor);
     }
 
     const { documentElement } = document;

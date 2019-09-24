@@ -27,6 +27,11 @@ export async function getLocaleId(locale: string): Promise<number> {
   return localeIds[locale];
 }
 
+export interface ImportedSentence {
+  sentence: string;
+  source: string;
+}
+
 export interface Sentence {
   id: string;
   text: string;
@@ -122,7 +127,8 @@ export default class DB {
   async findSentencesWithFewClips(
     client_id: string,
     locale: string,
-    count: number
+    count: number,
+    contractor: string
   ): Promise<Sentence[]> {
     const [rows] = await this.mysql.query(
       `
@@ -130,7 +136,7 @@ export default class DB {
         FROM (
           SELECT id, text
           FROM sentences
-          WHERE is_used AND locale_id = ? AND NOT EXISTS (
+          WHERE is_used AND locale_id = ? AND contractor = ? AND NOT EXISTS (
             SELECT *
             FROM clips
             WHERE clips.original_sentence_id = sentences.id AND
@@ -142,7 +148,7 @@ export default class DB {
         ORDER BY RAND()
         LIMIT ?
       `,
-      [await getLocaleId(locale), client_id, SHUFFLE_SIZE, count]
+      [await getLocaleId(locale), contractor, client_id, SHUFFLE_SIZE, count]
     );
     return (rows || []).map(({ id, text }: any) => ({ id, text }));
   }
@@ -520,7 +526,7 @@ export default class DB {
   async createSkippedSentence(id: string, client_id: string) {
     await this.mysql.query(
       `
-        INSERT INTO skipped_sentences (sentence_id, client_id) VALUES (?, ?) 
+        INSERT INTO skipped_sentences (sentence_id, client_id) VALUES (?, ?)
       `,
       [id, client_id]
     );
@@ -562,5 +568,29 @@ export default class DB {
         [client_id, id, reason]
       );
     }
+  }
+
+  async insertSentencesByLocale(
+    sentences: ImportedSentence[],
+    contractor: string,
+    locale: string
+  ) {
+    const [[{ localeId }]] = await this.mysql.query(
+      'SELECT id AS localeId FROM locales WHERE name = ? LIMIT 1',
+      [locale]
+    );
+    const statement =
+      'INSERT INTO sentences (id, text, is_used, locale_id, source, version, contractor) VALUES ?';
+    await this.mysql.query(statement, [
+      sentences.map(({ sentence, source }) => [
+        hash(sentence),
+        sentence,
+        true,
+        localeId,
+        source,
+        1,
+        contractor,
+      ]),
+    ]);
   }
 }
