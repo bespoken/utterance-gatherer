@@ -156,7 +156,8 @@ export default class DB {
   async findClipsWithFewVotes(
     client_id: string,
     locale: string,
-    count: number
+    count: number,
+    contractor: string
   ): Promise<DBClipWithVoters[]> {
     const [clips] = await this.mysql.query(
       `
@@ -165,7 +166,7 @@ export default class DB {
         SELECT clips.*
         FROM clips
         LEFT JOIN sentences on clips.original_sentence_id = sentences.id
-        WHERE is_valid IS NULL AND clips.locale_id = ? AND client_id <> ? AND
+        WHERE is_valid IS NULL AND clips.locale_id = ? AND client_id <> ? AND sentences.contractor = ? AND
               NOT EXISTS(
                 SELECT *
                 FROM votes
@@ -177,7 +178,14 @@ export default class DB {
       ORDER BY RAND()
       LIMIT ?
     `,
-      [await getLocaleId(locale), client_id, client_id, SHUFFLE_SIZE, count]
+      [
+        await getLocaleId(locale),
+        client_id,
+        contractor,
+        client_id,
+        SHUFFLE_SIZE,
+        count,
+      ]
     );
     for (const clip of clips) {
       clip.voters = clip.voters ? clip.voters.split(',') : [];

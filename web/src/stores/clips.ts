@@ -59,7 +59,11 @@ export namespace Clips {
 
       try {
         dispatch({ type: ActionType.LOAD });
-        const clips = await state.api.fetchRandomClips(MIN_CACHE_SIZE);
+        const contractor = state.bespokenDetails.contractor;
+        const clips = await state.api.fetchRandomClips(
+          MIN_CACHE_SIZE,
+          contractor
+        );
         dispatch({
           type: ActionType.REFILL_CACHE,
           clips: clips.map(clip => {

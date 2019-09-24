@@ -7,6 +7,7 @@ import { Sentences } from './sentences';
 import { RequestedLanguages } from './requested-languages';
 import { Uploads } from './uploads';
 import { User } from './user';
+import { BespokenDetails } from './bespokenDetails';
 
 export default interface StateTree {
   api: API;
@@ -18,6 +19,7 @@ export default interface StateTree {
   sentences: Sentences.State;
   uploads: Uploads.State;
   user: User.State;
+  bespokenDetails: BespokenDetails.State;
 }
 
 export const useTypedSelector: TypedUseSelectorHook<StateTree> = useSelector;

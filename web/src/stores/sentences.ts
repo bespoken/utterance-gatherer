@@ -35,7 +35,7 @@ export namespace Sentences {
   export type Action = RefillAction | RemoveAction;
 
   export const actions = {
-    refill: (contractor: string = '') => async (
+    refill: () => async (
       dispatch: Dispatch<RefillAction>,
       getState: () => StateTree
     ) => {
@@ -44,6 +44,7 @@ export namespace Sentences {
         if (Object.keys(localeSentences(state)).length >= CACHE_SET_COUNT) {
           return;
         }
+        const contractor = state.bespokenDetails.contractor;
         const newSentences = await state.api.fetchRandomSentences(
           CACHE_SET_COUNT,
           contractor
