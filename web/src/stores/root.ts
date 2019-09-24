@@ -12,6 +12,7 @@ import { Sentences } from './sentences';
 import StateTree from './tree';
 import { Uploads } from './uploads';
 import { User } from './user';
+import { BespokenDetails } from './bespokenDetails';
 
 export const USER_KEY = 'userdata';
 
@@ -38,6 +39,7 @@ const store = createStore(
       locale,
       notifications,
       uploads,
+      bespokenDetails,
     }: StateTree = {
       api: undefined,
       clips: undefined,
@@ -48,6 +50,7 @@ const store = createStore(
       sentences: undefined,
       uploads: undefined,
       user: undefined,
+      bespokenDetails: undefined,
     },
     action:
       | Clips.Action
@@ -57,6 +60,7 @@ const store = createStore(
       | Sentences.Action
       | Uploads.Action
       | User.Action
+      | BespokenDetails.Action
   ): StateTree {
     const newState = {
       clips: Clips.reducer(locale, clips, action as Clips.Action),
@@ -74,6 +78,10 @@ const store = createStore(
       notifications: Notifications.reducer(notifications, action as any),
       uploads: Uploads.reducer(uploads, action as Uploads.Action),
       user: User.reducer(user, action as User.Action),
+      bespokenDetails: BespokenDetails.reducer(
+        bespokenDetails,
+        action as BespokenDetails.Action
+      ),
     };
 
     return { api: new API(newState.locale, newState.user), ...newState };

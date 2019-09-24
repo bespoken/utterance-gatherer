@@ -35,6 +35,7 @@ import { Notifications } from '../stores/notifications';
 import StateTree from '../stores/tree';
 import { Uploads } from '../stores/uploads';
 import { User } from '../stores/user';
+import { BespokenDetails } from '../stores/BespokenDetails';
 import Layout from './layout/layout';
 import NotificationBanner from './notification-banner/notification-banner';
 import NotificationPill from './notification-pill/notification-pill';
@@ -64,6 +65,7 @@ interface PropsFromDispatch {
   removeUpload: typeof Uploads.actions.remove;
   setLocale: typeof Locale.actions.set;
   refreshUser: typeof User.actions.refresh;
+  addContractor: typeof BespokenDetails.actions.addContractor;
 }
 
 interface LocalizedPagesProps
@@ -94,6 +96,10 @@ let LocalizedPage: any = class extends React.Component<
   isUploading = false;
 
   async componentDidMount() {
+    let contractor = queryString.parse(this.props.location.search).contractor;
+    contractor = contractor && `${contractor}`;
+    this.props.addContractor(contractor);
+
     await this.prepareBundleGenerator(this.props);
     window.addEventListener('scroll', this.handleScroll);
     setTimeout(() => this.setState({ hasScrolled: true }), 5000);
@@ -171,20 +177,18 @@ let LocalizedPage: any = class extends React.Component<
   }: LocalizedPagesProps) {
     const [mainLocale] = userLocales;
     const pathname = history.location.pathname;
-    let contractor = queryString.parse(this.props.location.search).contractor;
-    contractor = contractor && `${contractor}`;
     // Since we make no distinction between "en-US", "en-UK",... we redirect them all to "en"
     if (mainLocale.startsWith('en-')) {
-      this.props.setLocale('en', contractor);
+      this.props.setLocale('en');
       history.replace(replacePathLocale(pathname, 'en'));
       return;
     }
 
     if (!LOCALES.includes(mainLocale)) {
-      this.props.setLocale(DEFAULT_LOCALE, contractor);
+      this.props.setLocale(DEFAULT_LOCALE);
       history.replace(replacePathLocale(pathname, DEFAULT_LOCALE));
     } else {
-      this.props.setLocale(userLocales[0], contractor);
+      this.props.setLocale(userLocales[0]);
     }
 
     const { documentElement } = document;
@@ -297,6 +301,7 @@ LocalizedPage = withRouter(
         removeUpload: Uploads.actions.remove,
         setLocale: Locale.actions.set,
         refreshUser: User.actions.refresh,
+        addContractor: BespokenDetails.actions.addContractor,
       }
     )(LocalizedPage)
   )

@@ -19,7 +19,7 @@ export namespace Locale {
   export type Action = SetAction;
 
   export const actions = {
-    set: (locale: string, contractor: string = '') => (
+    set: (locale: string) => (
       dispatch: Dispatch<SetAction | any>,
       getState: () => StateTree
     ) => {
@@ -29,8 +29,8 @@ export namespace Locale {
         locale,
       });
       if (contributableLocales.includes(locale)) {
-        dispatch(Sentences.actions.refill(contractor));
-        dispatch(Clips.actions.refillCache(contractor));
+        dispatch(Sentences.actions.refill());
+        dispatch(Clips.actions.refillCache());
       }
     },
   };
