@@ -1,7 +1,7 @@
-FROM node:8-stretch
+FROM node:10
 
 # Allow exposing HTTP endpoint
-EXPOSE 9000
+EXPOSE 3000
 
 # Add project source
 COPY . /code
