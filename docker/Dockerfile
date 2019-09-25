@@ -21,4 +21,4 @@ RUN apt-get update && \
 RUN yarn
 
 # Default command to start the server
-CMD yarn start
+#CMD yarn start
