@@ -40,7 +40,7 @@ const DEFAULTS: CommonVoiceConfig = {
   MYSQLUSER: 'voicecommons', // For normal DB interactions.
   MYSQLPASS: 'voicecommons',
   MYSQLDBNAME: 'voiceweb',
-  MYSQLHOST: process.env.MYSQLHOST || 'localhost',
+  MYSQLHOST: process.env.MYSQLHOST || 'localhost_test',
   MYSQLPORT: 3306,
   BUCKET_NAME: process.env.BUCKET_NAME || 'common-voice-corpus',
   BUCKET_LOCATION: '',
