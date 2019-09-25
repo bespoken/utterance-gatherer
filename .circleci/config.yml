@@ -15,6 +15,7 @@ steps: &default-steps
         sudo npm install fargate-helper -g
         if [ "$ENV" == "prod" ]; then
           fargate service \
+              --command "echo welcome" \
               --name commonvoice \
               --containerPort 3000 \
               --image bespoken/commonvoice:${CIRCLE_TAG} \
@@ -22,6 +23,11 @@ steps: &default-steps
               --cpu 1024 \
               --memory 2048 \
               --env env="${ENV}" \
+              --env DB_ROOT_USER="${DB_ROOT_USER}" \
+              --env DB_ROOT_PASS="${DB_ROOT_PASS}" \
+              --env MYSQLHOST="${MYSQLHOST}" \
+              --env BUCKET_NAME="${BUCKET_NAME}" \
+              --env BUCKET_SENTENCES_NAME="${BUCKET_SENTENCES_NAME}" \
               --env AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
               --env AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
         fi
