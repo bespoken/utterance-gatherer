@@ -35,7 +35,7 @@ import { Notifications } from '../stores/notifications';
 import StateTree from '../stores/tree';
 import { Uploads } from '../stores/uploads';
 import { User } from '../stores/user';
-import { BespokenDetails } from '../stores/BespokenDetails';
+import { BespokenDetails } from '../stores/bespokenDetails';
 import Layout from './layout/layout';
 import NotificationBanner from './notification-banner/notification-banner';
 import NotificationPill from './notification-pill/notification-pill';

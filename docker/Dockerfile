@@ -20,6 +20,5 @@ RUN apt-get update && \
 # Install yarn dependencies
 RUN yarn
 
-# Default command to start the server
-CMD yarn build
-CMD yarn start:prod
+# Build backend and frontend
+RUN yarn build
