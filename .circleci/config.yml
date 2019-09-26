@@ -15,7 +15,7 @@ steps: &default-steps
         sudo npm install fargate-helper -g
         if [ "$ENV" == "prod" ]; then
           fargate service \
-              --command "echo welcome" \
+              --command "node server/js/server.js" \
               --name commonvoice \
               --containerPort 3000 \
               --image bespoken/commonvoice:${CIRCLE_TAG} \
