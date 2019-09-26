@@ -157,9 +157,12 @@ export default class API {
         locale
       );
     } catch (error) {
-      response.json({ status: 'importing FAIL' });
+      console.log(error);
+      response
+        .status(500)
+        .json({ message: 'importing FAIL', error: error.message });
     }
-    response.json({ status: 'importing SUCCESS' });
+    response.json({ message: 'importing SUCCESS' });
   };
 
   getRandomSentences = async (request: Request, response: Response) => {

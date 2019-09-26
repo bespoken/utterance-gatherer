@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import { S3 } from 'aws-sdk';
 
+require('dotenv').config();
+
 export type CommonVoiceConfig = {
   VERSION: string;
   PROD: boolean;
@@ -34,15 +36,15 @@ const DEFAULTS: CommonVoiceConfig = {
   VERSION: null, // Migration number (e.g. 20171205171637), null = most recent
   RELEASE_VERSION: null, // release version set by nubis,
   PROD: false, // Set to true for staging and production.
-  SERVER_PORT: 9000,
-  DB_ROOT_USER: 'root', // For running schema migrations.
-  DB_ROOT_PASS: '',
+  SERVER_PORT: 3000,
+  DB_ROOT_USER: process.env.DB_ROOT_USER || 'root', // For running schema migrations.
+  DB_ROOT_PASS: process.env.DB_ROOT_PASS || '',
   MYSQLUSER: 'voicecommons', // For normal DB interactions.
   MYSQLPASS: 'voicecommons',
   MYSQLDBNAME: 'voiceweb',
-  MYSQLHOST: 'localhost',
+  MYSQLHOST: process.env.MYSQLHOST || 'localhost',
   MYSQLPORT: 3306,
-  BUCKET_NAME: 'common-voice-corpus',
+  BUCKET_NAME: process.env.BUCKET_NAME || 'common-voice-corpus',
   BUCKET_LOCATION: '',
   ENVIRONMENT: 'default',
   SECRET: 'TODO: Set a secure SECRET in config.json',
@@ -50,6 +52,8 @@ const DEFAULTS: CommonVoiceConfig = {
   S3_CONFIG: {
     signatureVersion: 'v4',
     useDualstack: true,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
   AUTH0: {
     DOMAIN: '',
@@ -58,7 +62,7 @@ const DEFAULTS: CommonVoiceConfig = {
   },
   IMPORT_SENTENCES: true,
   REDIS_URL: null,
-  BUCKET_SENTENCES_NAME: '',
+  BUCKET_SENTENCES_NAME: process.env.BUCKET_SENTENCES_NAME || '',
 };
 
 let injectedConfig: CommonVoiceConfig;
@@ -78,14 +82,5 @@ export function getConfig(): CommonVoiceConfig {
     return loadedConfig;
   }
 
-  let config = null;
-  try {
-    let config_path = process.env.SERVER_CONFIG_PATH || './config.json';
-    config = JSON.parse(fs.readFileSync(config_path, 'utf-8'));
-  } catch (err) {
-    console.error(err, 'could not load config.json, using defaults');
-  }
-  loadedConfig = { ...DEFAULTS, ...config };
-
-  return loadedConfig;
+  return { ...DEFAULTS };
 }

@@ -12,6 +12,7 @@ xcuserdata/
 .vscode/
 ZZidea
 newrelic_agent.log
+.env
 
 # Nubis
 nubis/librarian-puppet.tar.gz
