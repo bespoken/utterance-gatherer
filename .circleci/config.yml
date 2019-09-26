@@ -1,0 +1,53 @@
+# default-steps is an anchor that we can reuse later
+steps: &default-steps
+  - setup_remote_docker:
+      docker_layer_caching: true
+  - checkout
+  - run:
+      name: Deploy and Push to Docker Hub
+      command: |
+        docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+        docker build -f docker/Dockerfile -t bespoken/commonvoice:${CIRCLE_TAG} .
+        docker push bespoken/commonvoice:${CIRCLE_TAG}
+  - run:
+      name: Deploy commonvoice in Fargate
+      command: |
+        sudo npm install fargate-helper -g
+        if [ "$ENV" == "prod" ]; then
+          fargate service \
+              --command "node server/js/server.js" \
+              --name commonvoice \
+              --containerPort 3000 \
+              --image bespoken/commonvoice:${CIRCLE_TAG} \
+              --hostname ${CONTAINER_NAME}.bespoken.tools \
+              --cpu 1024 \
+              --memory 2048 \
+              --env env="${ENV}" \
+              --env DB_ROOT_USER="${DB_ROOT_USER}" \
+              --env DB_ROOT_PASS="${DB_ROOT_PASS}" \
+              --env MYSQLHOST="${MYSQLHOST}" \
+              --env BUCKET_NAME="${BUCKET_NAME}" \
+              --env BUCKET_SENTENCES_NAME="${BUCKET_SENTENCES_NAME}" \
+              --env AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
+              --env AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+        fi
+version: 2.0
+jobs:
+  deploy-prod:
+    docker:
+      - image: circleci/node:10
+    environment:
+      - ENV: 'prod'
+      - CONTAINER_NAME: commonvoice
+    steps: *default-steps
+
+workflows:
+  version: 2
+  test-n-deploy:
+    jobs:
+      - deploy-prod:
+          filters:
+            tags:
+              only: /aws-prod-.*/
+            branches:
+              ignore: /.*/

@@ -1,7 +1,7 @@
-FROM node:8-stretch
+FROM node:10
 
 # Allow exposing HTTP endpoint
-EXPOSE 9000
+EXPOSE 3000
 
 # Add project source
 COPY . /code
@@ -20,5 +20,5 @@ RUN apt-get update && \
 # Install yarn dependencies
 RUN yarn
 
-# Default command to start the server
-CMD yarn start
+# Build backend and frontend
+RUN yarn build
