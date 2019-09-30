@@ -12,6 +12,7 @@ import Bucket from './bucket';
 import { ClientParameterError } from './utility';
 import Awards from './model/awards';
 import { checkGoalsAfterContribution } from './model/goals';
+import { MturkDetails } from './model/db';
 
 const Transcoder = require('stream-transcoder');
 
@@ -175,6 +176,10 @@ export default class Clip {
 
       console.log('file written to s3', clipFileName);
 
+      const mturkDetails = headers.mturk_details
+        ? JSON.parse(headers.mturk_details as string)
+        : {};
+
       await this.model.saveClip({
         client_id: client_id,
         locale: params.locale,
@@ -182,6 +187,7 @@ export default class Clip {
         path: clipFileName,
         sentence,
         sentenceId: headers.sentence_id,
+        mturkDetails,
       });
       await Awards.checkProgress(client_id);
 

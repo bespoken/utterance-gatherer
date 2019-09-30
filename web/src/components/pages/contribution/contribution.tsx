@@ -9,6 +9,7 @@ const { Tooltip } = require('react-tippy');
 import { Locale } from '../../../stores/locale';
 import StateTree from '../../../stores/tree';
 import { User } from '../../../stores/user';
+import { BespokenDetails } from '../../../stores/bespokenDetails';
 import { trackListening, trackRecording } from '../../../services/tracker';
 import URLS from '../../../urls';
 import { LocaleLink, LocaleNavLink } from '../../locale-helpers';
@@ -43,6 +44,7 @@ export interface ContributionPillProps {
 interface PropsFromState {
   locale: Locale.State;
   user: User.State;
+  mturkDetails: BespokenDetails.MturkDetails;
 }
 
 interface Props extends LocalizationProps, PropsFromState {
@@ -219,8 +221,10 @@ class ContributionPage extends React.Component<Props, State> {
       reportModalProps,
       type,
       user,
+      mturkDetails,
     } = this.props;
     const { showReportModal, showShareModal, showShortcutsModal } = this.state;
+    const showListenLink = !mturkDetails.workerId;
 
     return (
       <div
@@ -270,9 +274,11 @@ class ContributionPage extends React.Component<Props, State> {
               <Localized id="speak">
                 <LocaleNavLink to={URLS.SPEAK} />
               </Localized>
-              <Localized id="listen">
-                <LocaleNavLink to={URLS.LISTEN} />
-              </Localized>
+              {showListenLink && (
+                <Localized id="listen">
+                  <LocaleNavLink to={URLS.LISTEN} />
+                </Localized>
+              )}
             </div>
 
             {this.isLoaded && !errorContent ? (
@@ -479,7 +485,10 @@ class ContributionPage extends React.Component<Props, State> {
   }
 }
 
-export default connect<PropsFromState>(({ locale, user }: StateTree) => ({
-  locale,
-  user,
-}))(withLocalization(ContributionPage));
+export default connect<PropsFromState>(
+  ({ locale, user, bespokenDetails }: StateTree) => ({
+    locale,
+    user,
+    mturkDetails: bespokenDetails.mturkDetails,
+  })
+)(withLocalization(ContributionPage));

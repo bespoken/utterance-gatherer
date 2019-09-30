@@ -3,6 +3,7 @@ import * as queryString from 'query-string';
 import { LanguageStats } from 'common/language-stats';
 import { UserClient } from 'common/user-clients';
 import { Locale } from '../stores/locale';
+import { BespokenDetails } from '../stores/bespokenDetails';
 import { User } from '../stores/user';
 import { USER_KEY } from '../stores/root';
 import { Sentences } from '../stores/sentences';
@@ -104,13 +105,19 @@ export default class API {
     return this.fetch(`${this.getClipPath()}?${query}`);
   }
 
-  uploadClip(blob: Blob, sentenceId: string, sentence: string): Promise<void> {
+  uploadClip(
+    blob: Blob,
+    sentenceId: string,
+    sentence: string,
+    mturkDetails: BespokenDetails.MturkDetails
+  ): Promise<void> {
     return this.fetch(this.getClipPath(), {
       method: 'POST',
       headers: {
         'Content-Type': blob.type,
         sentence: encodeURIComponent(sentence),
         sentence_id: sentenceId,
+        mturk_details: JSON.stringify(mturkDetails),
       },
       body: blob,
     });
