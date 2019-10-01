@@ -66,6 +66,7 @@ interface PropsFromDispatch {
   setLocale: typeof Locale.actions.set;
   refreshUser: typeof User.actions.refresh;
   addContractor: typeof BespokenDetails.actions.addContractor;
+  addMturkDetails: typeof BespokenDetails.actions.addMturkDetails;
 }
 
 interface LocalizedPagesProps
@@ -96,9 +97,22 @@ let LocalizedPage: any = class extends React.Component<
   isUploading = false;
 
   async componentDidMount() {
-    let contractor = queryString.parse(this.props.location.search).contractor;
-    contractor = contractor && `${contractor}`;
+    const params = queryString.parse(this.props.location.search);
+    let { contractor, assignmentId, hitId, workerId, turkSubmitTo } = params;
+    contractor = `${params.contractor || ''}`;
+    assignmentId = `${params.assignmentId || ''}`;
+    hitId = `${params.hitId || ''}`;
+    workerId = `${params.workerId || ''}`;
+    turkSubmitTo = `${params.turkSubmitTo || ''}`;
+    const mturkDetails: BespokenDetails.MturkDetails = {
+      assignmentId,
+      hitId,
+      workerId,
+      turkSubmitTo,
+    };
+
     this.props.addContractor(contractor);
+    this.props.addMturkDetails(mturkDetails);
 
     await this.prepareBundleGenerator(this.props);
     window.addEventListener('scroll', this.handleScroll);
@@ -302,6 +316,7 @@ LocalizedPage = withRouter(
         setLocale: Locale.actions.set,
         refreshUser: User.actions.refresh,
         addContractor: BespokenDetails.actions.addContractor,
+        addMturkDetails: BespokenDetails.actions.addMturkDetails,
       }
     )(LocalizedPage)
   )

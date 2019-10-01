@@ -32,6 +32,13 @@ export interface ImportedSentence {
   source: string;
 }
 
+export interface MturkDetails {
+  assignmentId: string;
+  hitId: string;
+  workerId: string;
+  turkSubmitTo: string;
+}
+
 export interface Sentence {
   id: string;
   text: string;
@@ -246,6 +253,7 @@ export default class DB {
     path,
     sentence,
     sentenceId,
+    mturkDetails,
   }: {
     client_id: string;
     locale: string;
@@ -253,6 +261,12 @@ export default class DB {
     path: string;
     sentence: string;
     sentenceId: string;
+    mturkDetails: {
+      assignmentId: string;
+      hitId: string;
+      workerId: string;
+      turkSubmitTo: string;
+    };
   }): Promise<void> {
     try {
       sentenceId = sentenceId || hash(sentence);
@@ -260,11 +274,18 @@ export default class DB {
 
       await this.mysql.query(
         `
-          INSERT INTO clips (client_id, original_sentence_id, path, sentence, locale_id)
-          VALUES (?, ?, ?, ?, ?)
+          INSERT INTO clips (client_id, original_sentence_id, path, sentence, locale_id, mturk_details)
+          VALUES (?, ?, ?, ?, ?, ?)
           ON DUPLICATE KEY UPDATE created_at = NOW()
         `,
-        [client_id, sentenceId, path, sentence, localeId]
+        [
+          client_id,
+          sentenceId,
+          path,
+          sentence,
+          localeId,
+          JSON.stringify(mturkDetails),
+        ]
       );
       await this.mysql.query(
         `

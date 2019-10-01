@@ -10,6 +10,7 @@ const NavigationPrompt = require('react-router-navigation-prompt').default;
 import { Locale } from '../../../../stores/locale';
 import { Notifications } from '../../../../stores/notifications';
 import { Sentences } from '../../../../stores/sentences';
+import { BespokenDetails } from '../../../../stores/bespokenDetails';
 import StateTree from '../../../../stores/tree';
 import { Uploads } from '../../../../stores/uploads';
 import { User } from '../../../../stores/user';
@@ -85,6 +86,7 @@ interface PropsFromState {
   locale: Locale.State;
   sentences: Sentences.Sentence[];
   user: User.State;
+  mturkDetails: BespokenDetails.MturkDetails;
 }
 
 interface PropsFromDispatch {
@@ -369,6 +371,7 @@ class SpeakPage extends React.Component<Props, State> {
       tallyRecording,
       user,
       refreshUser,
+      mturkDetails,
     } = this.props;
 
     if (!hasAgreed && !(user.privacyAgreed || user.account)) {
@@ -387,7 +390,12 @@ class SpeakPage extends React.Component<Props, State> {
         let retries = 3;
         while (retries) {
           try {
-            await api.uploadClip(recording.blob, sentence.id, sentence.text);
+            await api.uploadClip(
+              recording.blob,
+              sentence.id,
+              sentence.text,
+              mturkDetails
+            );
             if (!user.account) {
               tallyRecording();
             }
@@ -616,6 +624,7 @@ const mapStateToProps = (state: StateTree) => {
     locale: state.locale,
     sentences: Sentences.selectors.localeSentences(state),
     user: state.user,
+    mturkDetails: state.bespokenDetails.mturkDetails,
   };
 };
 
