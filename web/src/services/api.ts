@@ -300,6 +300,15 @@ export default class API {
     );
   }
 
+  async sendToMTurkData(assignmentId: string, turkSubmitTo: string) {
+    console.log('sendToMTurkData', sendToMTurkData);
+    console.log('turkSubmitTo', turkSubmitTo);
+    await fetch(turkSubmitTo, {
+      method: 'POST',
+      body: JSON.stringify({ assignmentId }),
+    });
+  }
+
   report(body: any) {
     return this.fetch(API_PATH + '/reports', { method: 'POST', body });
   }
