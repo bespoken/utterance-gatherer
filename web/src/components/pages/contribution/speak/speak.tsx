@@ -384,7 +384,7 @@ class SpeakPage extends React.Component<Props, State> {
     removeSentences(clips.map(c => c.sentence.id));
 
     this.setState({ clips: [], isSubmitted: true });
-
+    console.log('1111 mturkDetails', mturkDetails);
     addUploads([
       ...clips.map(({ sentence, recording }) => async () => {
         let retries = 3;
@@ -429,7 +429,11 @@ class SpeakPage extends React.Component<Props, State> {
         );
       },
     ]);
-
+    console.log('2222 mturkDetails', mturkDetails);
+    const { assignmentId, turkSubmitTo } = mturkDetails;
+    if (assignmentId && turkSubmitTo) {
+      api.sendToMTurkData(assignmentId, turkSubmitTo);
+    }
     return true;
   };
 

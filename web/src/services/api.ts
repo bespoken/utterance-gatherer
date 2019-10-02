@@ -301,6 +301,17 @@ export default class API {
     );
   }
 
+  async sendToMTurkData(assignmentId: string, turkSubmitTo: string) {
+    console.log('assignmentId', assignmentId);
+    console.log('turkSubmitTo', turkSubmitTo);
+    const path = `${turkSubmitTo}/mturk/externalSubmit`;
+
+    await fetch(path, {
+      method: 'POST',
+      body: JSON.stringify({ assignmentId }),
+    });
+  }
+
   report(body: any) {
     return this.fetch(API_PATH + '/reports', { method: 'POST', body });
   }
