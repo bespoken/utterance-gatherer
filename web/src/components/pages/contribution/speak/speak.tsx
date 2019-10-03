@@ -420,7 +420,7 @@ class SpeakPage extends React.Component<Props, State> {
       async () => {
         trackRecording('submit', locale);
         refreshUser();
-        this.sendDataToMturk();
+        await this.sendDataToMturk();
         console.log('termino!');
         addNotification(
           <React.Fragment>
@@ -435,12 +435,13 @@ class SpeakPage extends React.Component<Props, State> {
     return true;
   };
 
-  private sendDataToMturk = () => {
+  private sendDataToMturk = async () => {
     console.log('sendDataToMturk 111');
     const { assignmentId, turkSubmitTo } = this.props.mturkDetails;
     if (assignmentId && turkSubmitTo) {
       console.log('sendDataToMturk 222');
-      this.formToMTurk.submit();
+      const test = await this.formToMTurk.submit();
+      console.log('TESTTTT', test);
     }
   };
 
