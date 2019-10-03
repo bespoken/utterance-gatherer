@@ -127,6 +127,7 @@ const initialState: State = {
 
 class SpeakPage extends React.Component<Props, State> {
   state: State = initialState;
+  formToMTurk: any;
 
   audio: AudioWeb | AudioIOS;
   isUnsupportedPlatform = false;
@@ -432,7 +433,8 @@ class SpeakPage extends React.Component<Props, State> {
     console.log('2222 mturkDetails', mturkDetails);
     const { assignmentId, turkSubmitTo } = mturkDetails;
     if (assignmentId && turkSubmitTo) {
-      api.sendToMTurkData(assignmentId, turkSubmitTo);
+      console.log('send back data to mturk :)');
+      this.formToMTurk.submit();
     }
     return true;
   };
@@ -465,7 +467,7 @@ class SpeakPage extends React.Component<Props, State> {
   };
 
   render() {
-    const { getString, user } = this.props;
+    const { getString, user, mturkDetails } = this.props;
     const {
       clips,
       isSubmitted,
@@ -476,8 +478,20 @@ class SpeakPage extends React.Component<Props, State> {
       showDiscardModal,
     } = this.state;
     const recordingIndex = this.getRecordingIndex();
+
+    const { turkSubmitTo, assignmentId } = mturkDetails;
+    const actionUrl = `${turkSubmitTo}/mturk/externalSubmit`;
+
     return (
       <React.Fragment>
+        <form
+          action={actionUrl}
+          method="POST"
+          ref={node => {
+            this.formToMTurk = node;
+          }}>
+          <input type="hidden" name="assignmentId" value={assignmentId} />
+        </form>
         <NavigationPrompt
           when={clips.filter(clip => clip.recording).length > 0}>
           {({ onConfirm, onCancel }: any) => (
