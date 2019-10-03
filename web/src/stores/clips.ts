@@ -1,4 +1,5 @@
 import { Action as ReduxAction, Dispatch } from 'redux';
+import * as _ from 'lodash';
 const contributableLocales = require('../../../locales/contributable.json') as string[];
 import StateTree from './tree';
 import { User } from './user';
@@ -60,9 +61,14 @@ export namespace Clips {
       try {
         dispatch({ type: ActionType.LOAD });
         const contractor = state.bespokenDetails.contractor;
+        const assignmentId = _.get(
+          state.bespokenDetails,
+          'mturkDetails.assignmentId'
+        );
         const clips = await state.api.fetchRandomClips(
           MIN_CACHE_SIZE,
-          contractor
+          contractor,
+          assignmentId
         );
         dispatch({
           type: ActionType.REFILL_CACHE,

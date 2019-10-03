@@ -37,13 +37,15 @@ export default class Bucket {
     client_id: string,
     locale: string,
     count: number,
-    contractor: string
+    contractor: string,
+    assignmentId: string
   ): Promise<{ id: number; glob: string; text: string; sound: string }[]> {
     const clips = await this.model.findEligibleClips(
       client_id,
       locale,
       count,
-      contractor
+      contractor,
+      assignmentId
     );
     try {
       return await Promise.all(

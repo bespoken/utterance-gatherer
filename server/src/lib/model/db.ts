@@ -164,7 +164,8 @@ export default class DB {
     client_id: string,
     locale: string,
     count: number,
-    contractor: string
+    contractor: string,
+    assignmentId: string
   ): Promise<DBClipWithVoters[]> {
     const [clips] = await this.mysql.query(
       `
@@ -173,8 +174,12 @@ export default class DB {
         SELECT clips.*
         FROM clips
         LEFT JOIN sentences on clips.original_sentence_id = sentences.id
-        WHERE is_valid IS NULL AND clips.locale_id = ? AND client_id <> ? AND sentences.contractor = ? AND
-              NOT EXISTS(
+        WHERE is_valid IS NULL
+        AND clips.locale_id = ?
+        AND client_id <> ?
+        AND sentences.contractor = ?
+        AND JSON_EXTRACT(clips.mturk_details, "$.assignmentId") = ?
+        AND NOT EXISTS(
                 SELECT *
                 FROM votes
                 WHERE votes.clip_id = clips.id AND client_id = ?
@@ -189,6 +194,7 @@ export default class DB {
         await getLocaleId(locale),
         client_id,
         contractor,
+        assignmentId,
         client_id,
         SHUFFLE_SIZE,
         count,
