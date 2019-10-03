@@ -420,6 +420,8 @@ class SpeakPage extends React.Component<Props, State> {
       async () => {
         trackRecording('submit', locale);
         refreshUser();
+        this.sendDataToMturk();
+        console.log('termino!');
         addNotification(
           <React.Fragment>
             <CheckIcon />{' '}
@@ -430,13 +432,16 @@ class SpeakPage extends React.Component<Props, State> {
         );
       },
     ]);
-    console.log('2222 mturkDetails', mturkDetails);
-    const { assignmentId, turkSubmitTo } = mturkDetails;
+    return true;
+  };
+
+  private sendDataToMturk = () => {
+    console.log('sendDataToMturk 111');
+    const { assignmentId, turkSubmitTo } = this.props.mturkDetails;
     if (assignmentId && turkSubmitTo) {
-      console.log('send back data to mturk :)');
+      console.log('sendDataToMturk 222');
       this.formToMTurk.submit();
     }
-    return true;
   };
 
   private resetState = (callback?: any) =>
