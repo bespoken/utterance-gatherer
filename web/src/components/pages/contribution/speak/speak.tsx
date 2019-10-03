@@ -420,7 +420,7 @@ class SpeakPage extends React.Component<Props, State> {
       async () => {
         trackRecording('submit', locale);
         refreshUser();
-        await this.sendDataToMturk();
+        this.sendDataToMturk();
         console.log('termino!');
         addNotification(
           <React.Fragment>
@@ -435,13 +435,12 @@ class SpeakPage extends React.Component<Props, State> {
     return true;
   };
 
-  private sendDataToMturk = async () => {
+  private sendDataToMturk = () => {
     console.log('sendDataToMturk 111');
     const { assignmentId, turkSubmitTo } = this.props.mturkDetails;
     if (assignmentId && turkSubmitTo) {
       console.log('sendDataToMturk 222');
-      const test = await this.formToMTurk.submit();
-      console.log('TESTTTT', test);
+      this.formToMTurk.submit();
     }
   };
 
@@ -488,7 +487,7 @@ class SpeakPage extends React.Component<Props, State> {
     const { turkSubmitTo, assignmentId } = mturkDetails;
     const actionUrl = `${decodeURIComponent(
       turkSubmitTo
-    )}/mturk/externalSubmit`;
+    )}/mturk/externalSubmit?assignmentId=${assignmentId}`;
 
     return (
       <React.Fragment>
@@ -497,9 +496,7 @@ class SpeakPage extends React.Component<Props, State> {
           method="POST"
           ref={node => {
             this.formToMTurk = node;
-          }}>
-          <input type="hidden" name="assignmentId" value={assignmentId} />
-        </form>
+          }}></form>
         <NavigationPrompt
           when={clips.filter(clip => clip.recording).length > 0}>
           {({ onConfirm, onCancel }: any) => (
