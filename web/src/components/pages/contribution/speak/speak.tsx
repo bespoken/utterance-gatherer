@@ -484,10 +484,10 @@ class SpeakPage extends React.Component<Props, State> {
     } = this.state;
     const recordingIndex = this.getRecordingIndex();
 
-    const { turkSubmitTo, assignmentId } = mturkDetails;
+    const { turkSubmitTo, assignmentId, hitId, workerId } = mturkDetails;
     const actionUrl = `${decodeURIComponent(
       turkSubmitTo
-    )}/mturk/externalSubmit?assignmentId=${assignmentId}`;
+    )}/mturk/externalSubmit?assignmentId=${assignmentId}&workerId=${workerId}&hitId=${hitId}`;
 
     return (
       <React.Fragment>
