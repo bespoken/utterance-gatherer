@@ -61,14 +61,11 @@ export namespace Clips {
       try {
         dispatch({ type: ActionType.LOAD });
         const contractor = state.bespokenDetails.contractor;
-        const assignmentId = _.get(
-          state.bespokenDetails,
-          'mturkDetails.assignmentId'
-        );
+        const hitId = _.get(state.bespokenDetails, 'mturkDetails.hitId');
         const clips = await state.api.fetchRandomClips(
           MIN_CACHE_SIZE,
           contractor,
-          assignmentId
+          hitId
         );
         dispatch({
           type: ActionType.REFILL_CACHE,
