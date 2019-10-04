@@ -5,6 +5,7 @@ import {
 } from 'fluent-react/compat';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import * as queryString from 'query-string';
 import { RouteComponentProps, withRouter } from 'react-router';
 const NavigationPrompt = require('react-router-navigation-prompt').default;
 import { Locale } from '../../../../stores/locale';
@@ -127,6 +128,7 @@ const initialState: State = {
 
 class SpeakPage extends React.Component<Props, State> {
   state: State = initialState;
+  formToMTurk: any;
 
   audio: AudioWeb | AudioIOS;
   isUnsupportedPlatform = false;
@@ -418,7 +420,7 @@ class SpeakPage extends React.Component<Props, State> {
       }),
       async () => {
         trackRecording('submit', locale);
-        refreshUser();
+        await refreshUser();
         addNotification(
           <React.Fragment>
             <CheckIcon />{' '}
@@ -427,10 +429,22 @@ class SpeakPage extends React.Component<Props, State> {
             </Localized>
           </React.Fragment>
         );
+        this.sendDataToMturk();
       },
     ]);
-
     return true;
+  };
+
+  private sendDataToMturk = () => {
+    const {
+      assignmentId,
+      turkSubmitTo,
+      workerId,
+      hitId,
+    } = this.props.mturkDetails;
+    if (assignmentId && turkSubmitTo && workerId && hitId) {
+      this.formToMTurk.submit();
+    }
   };
 
   private resetState = (callback?: any) =>
@@ -461,7 +475,7 @@ class SpeakPage extends React.Component<Props, State> {
   };
 
   render() {
-    const { getString, user } = this.props;
+    const { getString, user, mturkDetails } = this.props;
     const {
       clips,
       isSubmitted,
@@ -472,8 +486,20 @@ class SpeakPage extends React.Component<Props, State> {
       showDiscardModal,
     } = this.state;
     const recordingIndex = this.getRecordingIndex();
+
+    const { turkSubmitTo, assignmentId, hitId, workerId } = mturkDetails;
+    const host = decodeURIComponent(turkSubmitTo);
+    const params = queryString.stringify({ assignmentId, hitId, workerId });
+    const actionUrl = `${host}/mturk/externalSubmit?${params}`;
+
     return (
       <React.Fragment>
+        <form
+          action={actionUrl}
+          method="POST"
+          ref={node => {
+            this.formToMTurk = node;
+          }}></form>
         <NavigationPrompt
           when={clips.filter(clip => clip.recording).length > 0}>
           {({ onConfirm, onCancel }: any) => (
