@@ -100,9 +100,9 @@ export default class API {
   fetchRandomClips(
     count: number = 1,
     contractor: string = '',
-    assignmentId: string = ''
+    hitId: string = ''
   ): Promise<Clip[]> {
-    const query = queryString.stringify({ count, contractor, assignmentId });
+    const query = queryString.stringify({ count, contractor, hitId });
     return this.fetch(`${this.getClipPath()}?${query}`);
   }
 
