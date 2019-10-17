@@ -206,17 +206,19 @@ export default class Clip {
     { client_id, params, query }: Request,
     response: Response
   ): Promise<void> => {
-    if (!query.contractor || !query.hitId) {
-      response.status(500).json({
-        error: 'the contractor and hitId parameters are required',
-      });
+    if (!query.contractor || !query.assignmentId) {
+      response
+        .status(500)
+        .json({
+          error: 'the contractor and assignmentId parameters are required',
+        });
     }
     const clips = await this.bucket.getRandomClips(
       client_id,
       params.locale,
       parseInt(query.count, 10) || 1,
       query.contractor,
-      query.hitId
+      query.assignmentId
     );
     response.json(clips);
   };
