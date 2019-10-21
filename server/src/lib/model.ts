@@ -61,14 +61,14 @@ export default class Model {
     locale: string,
     count: number,
     contractor: string,
-    hitId: string
+    assignmentId: string
   ): Promise<DBClipWithVoters[]> {
     return this.db.findClipsWithFewVotes(
       client_id,
       locale,
       Math.min(count, 50),
       contractor,
-      hitId
+      assignmentId
     );
   }
 

@@ -165,7 +165,7 @@ export default class DB {
     locale: string,
     count: number,
     contractor: string,
-    hitId: string
+    assignmentId: string
   ): Promise<DBClipWithVoters[]> {
     const [clips] = await this.mysql.query(
       `
@@ -178,7 +178,7 @@ export default class DB {
         AND clips.locale_id = ?
         AND client_id <> ?
         AND sentences.contractor = ?
-        AND JSON_EXTRACT(clips.mturk_details, "$.hitId") = ?
+        AND JSON_EXTRACT(clips.mturk_details, "$.assignmentId") = ?
         AND NOT EXISTS(
                 SELECT *
                 FROM votes
@@ -194,7 +194,7 @@ export default class DB {
         await getLocaleId(locale),
         client_id,
         contractor,
-        hitId,
+        assignmentId,
         client_id,
         SHUFFLE_SIZE,
         count,
