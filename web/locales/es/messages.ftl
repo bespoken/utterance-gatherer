@@ -335,12 +335,12 @@ faq-title = Preguntas frecuentes
 faq-what-cv-q = ¿Qué es Common Voice?
 faq-what-cv-a =
     La tecnología de reconocimiento de voz está revolucionando la forma en la que nos relacionamos con las máquinas, pero los sistemas actuales son caros y no son de acceso público. Common Voice es parte de la iniciativa de Mozilla para hacer que las tecnologías de reconocimiento de voz sean mejores y más accesibles para todos. Common Voice es una gran base de datos de voces donadas a nivel mundial que permite que cualquiera pueda acceder de forma rápida y sencilla a las aplicaciones habilitadas para comunicarse en casi todos los idiomas.
-    
+
     No solo estamos recopilando muestras de voz en los idiomas más hablados, sino también en aquellos con una menor cantidad de hablantes. Publicar una gran base de datos de voces permitirá a desarrolladores, empresarios y a las comunidades hacer frente a esa brecha. Además de la base de datos de Common Voice, también estamos creando un motor de reconocimiento de voz de código abierto llamado Deep Speech.
 faq-why-important-q = ¿Por qué es importante?
 faq-why-important-a =
     Hablar es la manera más natural que tenemos de comunicarnos unos con otros y la tecnología de voz está facilitando esa comunicación en ordenadores y dispositivos móviles. Queremos dar la posibilidad a los desarrolladores de crear aplicaciones de reconocimiento de voz increíbles, como traductores a tiempo real o asistentes manejados por voz. Pero hoy en día, la mayoría de los datos de voz que se necesitan para desarrollar este tipo de aplicaciones son caros y privados. Esperamos que las bases de datos de Common Voice ofrezcan a los desarrolladores lo que necesitan para innovar y crear tecnologías de reconocimiento de voz disponibles en sus propios idiomas.
-    
+
     Para que el reconocimiento de voz sea aun más universal, estamos recopilando muestras de voz en multitud de idiomas, tanto los más hablados como en aquellos con menor incidencia que a menudo reciben servicios insuficientes de reconocimiento de voz. La publicación de una gran base de datos de voz ayudará a los desarrolladores, emprendedores, y a toda la comunidad de tecnologías de voz a hacer frente a esa brecha.
 faq-how-get-q = ¿Cómo puedo obtener los datos de Common Voice?
 faq-how-get-a = La base de datos de Common Voice está disponible para su descarga bajo la licencia <licenseLink>CC0</licenseLink> en <datasetLink>nuestra página de base de datos</datasetLink>. También puedes descargar muchos otros datos disponibles públicamente desde la misma página.
@@ -369,7 +369,7 @@ faq-how-calc-hours-a = Calculamos las horas estimando la duración media de cada
 faq-where-src-from-2-q = ¿De dónde procede el texto fuente?
 faq-where-src-from-2-a =
     Nuestros textos provienen de frases originales donadas por los propios colaboradores y de diálogos de películas de dominio público como <italic> Qué bello es vivir </italic>.
-    
+
     Puedes consultar nuestras frases de origen en esta <githubLink>carpeta de GitHub</githubLink>.
 faq-why-not-ask-read-q = ¿Por qué no pedís a la gente que lean libros o artículos de Wikipedia en diferentes idiomas?
 faq-why-not-ask-read-a = Para hacer que la base de datos de Common Voice sea lo más útil posible, hemos decidido permitir solo los textos que estén disponibles bajo una licencia Creative Commons (CC0). Al usar la licencia estándar CC0 es mucho más difícil encontrar y recopilar textos originales, pero permite que cualquiera pueda usar los datos de voz resultantes sin restricciones de uso o autorización de Mozilla. Por último, queremos que la base de datos en varios idiomas sea lo más útil posible para todos, incluidos investigadores, universidades, empresas emergentes, gobiernos, organizaciones de fines sociales y aficionados.
@@ -380,7 +380,7 @@ faq-how-privacy-a = Todos los fragmentos de voz de la base de datos se filtran y
 faq-what-determine-identity-q = ¿Qué significa que no puedo "determinar la identidad" de los oradores en la base de datos de Common Voice?
 faq-what-determine-identity-a =
     La base de datos de Common Voice es un recurso abierto y accesible para todo el público que se puede usar para formar y crear una amplia variedad de aplicaciones habilitadas para la voz. Para proteger la seguridad de nuestros colaboradores, pedimos a todos los que descarguen la base de datos de Common Voice que respeten la privacidad de los colaboradores.
-    
+
     A todos los fragmentos de voz de la base de datos se les filtra la información de identificación personal. Cuando descargas la base de datos, estás aceptando que no intentarás determinar la identidad de ningún colaborador. Eso significa que no puedes intentar vincular la información de la base de datos con la información personal de un colaborador. Sin embargo, puedes usar la base de datos para entrenar el reconocimiento de voz, el reconocimiento del hablante u otras aplicaciones; por ejemplo, vinculando la información de la base de datos con otra información que ya se encuentra en ella.
 faq-what-is-cv = ¿Qué es Common Voice?
 faq-using-cv = Cómo usar Common Voice
@@ -478,9 +478,9 @@ review-delete-recordings = Eliminar mis grabaciones
 datasets-headline = Estamos creando una base de datos de voces, abierta y multi idioma, que cualquiera puede usar para entrenar aplicaciones que utilicen la voz como interfaz.
 datasets-positioning =
     Creemos que las bases de datos amplias y accesibles para todo el público potenciarán la innovación y una sana competencia comercial entre las tecnologías de voz basadas en el aprendizaje automático.
-    
+
     La base de datos multilingüe de Common Voice ya es la más amplia de su categoría, pero no es la única.
-    
+
     Considera esta página como una referencia centralizada de otras bases de datos abiertas de voz que, como Common Voice, continúan creciendo y sirven de base para las actualizaciones de nuestras versiones.
 language = Idioma
 # File size in gigabytes
@@ -503,7 +503,7 @@ recorded-hours = Horas grabadas
 whats-inside = ¿Qué hay en la base de datos de Common Voice?
 dataset-description-hours =
     Cada entrada de la base de datos consiste en un único MP3 y su correspondiente archivo de texto. Muchas de las <b>{ $total }</b> horas grabadas en la base de datos también incluyen metadatos demográficos, como edad, sexo y acento que pueden ayudar a mejorar la precisión en el entrenamiento de los motores de reconocimiento del  habla.
-    
+
     Por ahora, la base de datos consta de <b>{ $valid }</b> horas validadas en <b>{ $languages }</b> idiomas, pero siempre estamos añadiendo más voces e idiomas. Echa un vistazo a nuestra <languagesLink>Página de idiomas</languagesLink> para solicitar un idioma o empezar a colaborar.
 want-dataset-update = ¿Quieres recibir información sobre nuevas versiones y actualizaciones de las bases de datos de Common Voice? Suscríbete a nuestro boletín.
 subscribe = Suscribirse
@@ -620,6 +620,7 @@ record-button-label = Grabar tu voz
 share-title-new = <bold>Ayúdanos</bold> a encontrar más voces.
 keep-track-profile = Haz un seguimiento de tu progreso con un perfil
 login-to-get-started = Inicia sesión o regístrate para comenzar
+mturk-upload-success-clips = Por favor espere unos segundos los clips se esta subiendo a nuestro sistema. Agradecemos su trabajo.
 
 ## Reporting
 
@@ -688,7 +689,7 @@ keep-info = Tus grabaciones de voz anónimas permanecerán en la base de datos d
 remove-info = Revisaremos tu solicitud para eliminar tus grabaciones de voz de la base de datos. Si se aprueba tu solicitud, nos pondremos en contacto con los que hayan descargado la base de datos y les pediremos que eliminen también tus grabaciones de voz.
 why-delete-recordings =
     Las grabaciones de Common Voice las utilizan académicos, pequeños negocios, y entusiastas del reconocimiento del lenguaje hablado para ayudar a formar y componer recursos disponibles públicamente como modelos de voz.
-    
+
     ¿Nos puedes indicar por qué quieres eliminar tus grabaciones?
 profile-form-delete = Eliminar perfil
 

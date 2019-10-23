@@ -11,6 +11,7 @@ export namespace BespokenDetails {
   export interface State {
     contractor: string;
     mturkDetails: MturkDetails;
+    isMturkContext: boolean;
   }
 
   enum ActionType {
@@ -50,6 +51,7 @@ export namespace BespokenDetails {
         workerId: '',
         turkSubmitTo: '',
       },
+      isMturkContext: false,
     },
     action: Action
   ): State {
@@ -57,7 +59,11 @@ export namespace BespokenDetails {
       case ActionType.ADD_CONTRACTOR:
         return { ...state, contractor: action.contractor };
       case ActionType.ADD_MTURK_DETAILS:
-        return { ...state, mturkDetails: action.mturkDetails };
+        return {
+          ...state,
+          mturkDetails: action.mturkDetails,
+          isMturkContext: !!action.mturkDetails.workerId,
+        };
       default:
         return state;
     }
