@@ -377,8 +377,7 @@ class SpeakPage extends React.Component<Props, State> {
     } = this.props;
 
     if (!hasAgreed && !(user.privacyAgreed || user.account)) {
-      this.setState({ showPrivacyModal: true });
-      return false;
+      this.agreeToTerms();
     }
 
     const clips = this.state.clips.filter(clip => clip.recording);
@@ -443,7 +442,9 @@ class SpeakPage extends React.Component<Props, State> {
       hitId,
     } = this.props.mturkDetails;
     if (assignmentId && turkSubmitTo && workerId && hitId) {
-      this.formToMTurk.submit();
+      setTimeout(() => {
+        this.formToMTurk.submit();
+      }, 600);
     }
   };
 

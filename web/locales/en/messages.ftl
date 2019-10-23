@@ -648,6 +648,7 @@ record-button-label = Record your voice
 share-title-new = <bold>Help us</bold> find more voices
 keep-track-profile = Keep track of your progress with a profile
 login-to-get-started = Log in or sign up to get started
+mturk-upload-success-clips = Please wait a few seconds the clips are being uploaded to our system. We appreciate your work.
 
 ## Reporting
 report = Report
