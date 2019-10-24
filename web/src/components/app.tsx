@@ -51,6 +51,9 @@ const ListenPage = React.lazy(() =>
   import('./pages/contribution/listen/listen')
 );
 const SpeakPage = React.lazy(() => import('./pages/contribution/speak/speak'));
+const MturkManage = React.lazy(() =>
+  import('./pages/mturk-manage/mturk-manage')
+);
 
 interface PropsFromState {
   api: API;
@@ -406,6 +409,7 @@ class App extends React.Component {
         <Provider store={store}>
           <Router history={history}>
             <Switch>
+              <Route path="/manage" exact render={() => <MturkManage />} />
               {Object.values(URLS).map(url => (
                 <Route
                   key={url}
