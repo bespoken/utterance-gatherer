@@ -26,7 +26,9 @@ import { PrimaryButton } from '../../primary-buttons/primary-buttons';
 import ShareModal from '../../share-modal/share-modal';
 import { ReportButton, ReportModal, ReportModalProps } from './report/report';
 import Success from './success';
+import MturkSuccess from './mturk-success';
 import Wave from './wave';
+import * as cx from 'classnames';
 
 import './contribution.css';
 
@@ -44,7 +46,7 @@ export interface ContributionPillProps {
 interface PropsFromState {
   locale: Locale.State;
   user: User.State;
-  mturkDetails: BespokenDetails.MturkDetails;
+  isMturkContext: boolean;
 }
 
 interface Props extends LocalizationProps, PropsFromState {
@@ -221,10 +223,10 @@ class ContributionPage extends React.Component<Props, State> {
       reportModalProps,
       type,
       user,
-      mturkDetails,
+      isMturkContext,
     } = this.props;
     const { showReportModal, showShareModal, showShortcutsModal } = this.state;
-    const showListenLink = !mturkDetails.workerId;
+    const showSection = !isMturkContext;
 
     return (
       <div
@@ -264,22 +266,23 @@ class ContributionPage extends React.Component<Props, State> {
             this.isDone ? 'submittable' : '',
           ].join(' ')}>
           <div className="top">
-            <LocaleLink
-              to={user.account ? URLS.DASHBOARD : URLS.ROOT}
-              className="back">
-              <ArrowLeft />
-            </LocaleLink>
-
-            <div className="links">
-              <Localized id="speak">
-                <LocaleNavLink to={URLS.SPEAK} />
-              </Localized>
-              {showListenLink && (
+            {showSection && (
+              <LocaleLink
+                to={user.account ? URLS.DASHBOARD : URLS.ROOT}
+                className="back">
+                <ArrowLeft />
+              </LocaleLink>
+            )}
+            {showSection && (
+              <div className="links">
+                <Localized id="speak">
+                  <LocaleNavLink to={URLS.SPEAK} />
+                </Localized>
                 <Localized id="listen">
                   <LocaleNavLink to={URLS.LISTEN} />
                 </Localized>
-              )}
-            </div>
+              </div>
+            )}
 
             {this.isLoaded && !errorContent ? (
               <div className={'counter ' + (isSubmitted ? 'done' : '')}>
@@ -294,7 +297,7 @@ class ContributionPage extends React.Component<Props, State> {
             ) : (
               <div />
             )}
-            {isSubmitted && (
+            {isSubmitted && showSection && (
               <button className="open-share" onClick={this.toggleShareModal}>
                 <ShareIcon />
               </button>
@@ -329,11 +332,17 @@ class ContributionPage extends React.Component<Props, State> {
       primaryButtons,
       sentences,
       type,
+      isMturkContext,
     } = this.props;
     const { selectedPill } = this.state;
+    const showSection = !isMturkContext;
 
     return isSubmitted ? (
-      <Success onReset={onReset} type={type} />
+      showSection ? (
+        <Success onReset={onReset} type={type} />
+      ) : (
+        <MturkSuccess />
+      )
     ) : (
       errorContent ||
         (this.isLoaded && (
@@ -429,36 +438,40 @@ class ContributionPage extends React.Component<Props, State> {
               {primaryButtons}
             </div>
 
-            <div className="buttons">
-              <div>
-                <Button
-                  rounded
-                  outline
-                  className="hidden-sm-down"
-                  onClick={this.toggleShortcutsModal}>
-                  <KeyboardIcon />
-                  <Localized id="shortcuts">
-                    <span />
-                  </Localized>
-                </Button>
-                <div className="extra-button">
-                  <ReportButton
-                    onClick={() => this.setState({ showReportModal: true })}
-                  />
+            <div className={cx('buttons', { moveToRight: !showSection })}>
+              {showSection && (
+                <div>
+                  <Button
+                    rounded
+                    outline
+                    className="hidden-sm-down"
+                    onClick={this.toggleShortcutsModal}>
+                    <KeyboardIcon />
+                    <Localized id="shortcuts">
+                      <span />
+                    </Localized>
+                  </Button>
+                  <div className="extra-button">
+                    <ReportButton
+                      onClick={() => this.setState({ showReportModal: true })}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
               <div>
-                <Button
-                  rounded
-                  outline
-                  className="skip"
-                  disabled={!this.isLoaded}
-                  onClick={onSkip}>
-                  <Localized id="skip">
-                    <span />
-                  </Localized>{' '}
-                  <SkipIcon />
-                </Button>
+                {showSection && (
+                  <Button
+                    rounded
+                    outline
+                    className="skip"
+                    disabled={!this.isLoaded}
+                    onClick={onSkip}>
+                    <Localized id="skip">
+                      <span />
+                    </Localized>{' '}
+                    <SkipIcon />
+                  </Button>
+                )}
                 {onSubmit && (
                   <Tooltip
                     arrow
@@ -489,6 +502,6 @@ export default connect<PropsFromState>(
   ({ locale, user, bespokenDetails }: StateTree) => ({
     locale,
     user,
-    mturkDetails: bespokenDetails.mturkDetails,
+    isMturkContext: bespokenDetails.isMturkContext,
   })
 )(withLocalization(ContributionPage));
