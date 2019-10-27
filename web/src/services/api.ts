@@ -89,20 +89,16 @@ export default class API {
     return this.getLocalePath() + '/clips';
   }
 
-  fetchRandomSentences(
-    count: number = 1,
-    contractor: string = ''
-  ): Promise<Sentences.Sentence[]> {
-    const query = queryString.stringify({ count, contractor });
+  fetchRandomSentences(contractor: string = ''): Promise<Sentences.Sentence[]> {
+    const query = queryString.stringify({ contractor });
     return this.fetch(`${this.getLocalePath()}/sentences?${query}`);
   }
 
   fetchRandomClips(
-    count: number = 1,
     contractor: string = '',
     assignmentId: string = ''
   ): Promise<Clip[]> {
-    const query = queryString.stringify({ count, contractor, assignmentId });
+    const query = queryString.stringify({ contractor, assignmentId });
     return this.fetch(`${this.getClipPath()}?${query}`);
   }
 

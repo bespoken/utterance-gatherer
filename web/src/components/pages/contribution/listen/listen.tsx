@@ -16,10 +16,7 @@ import {
   VolumeIcon,
 } from '../../../ui/icons';
 import { LinkButton } from '../../../ui/ui';
-import ContributionPage, {
-  ContributionPillProps,
-  SET_COUNT,
-} from '../contribution';
+import ContributionPage, { ContributionPillProps } from '../contribution';
 import { PlayButton } from '../../../primary-buttons/primary-buttons';
 import Pill from '../pill';
 
@@ -80,9 +77,7 @@ class ListenPage extends React.Component<Props, State> {
 
     if (props.clips.length > 0) {
       return {
-        clips: props.clips
-          .slice(0, SET_COUNT)
-          .map(clip => ({ ...clip, isValid: null })),
+        clips: props.clips.map(clip => ({ ...clip, isValid: null })),
       };
     }
 
@@ -136,7 +131,7 @@ class ListenPage extends React.Component<Props, State> {
       hasPlayed: false,
       hasPlayedSome: false,
       isPlaying: false,
-      isSubmitted: clipIndex === SET_COUNT - 1,
+      isSubmitted: clipIndex === clips.length - 1,
       clips: clips.map((clip, i) =>
         i === clipIndex ? { ...clip, isValid } : clip
       ),
@@ -168,7 +163,7 @@ class ListenPage extends React.Component<Props, State> {
     this.setState({
       clips: clips.map((clip, i) =>
         this.getClipIndex() === i
-          ? { ...this.props.clips.slice(SET_COUNT)[0], isValid: null }
+          ? { ...this.props.clips[0], isValid: null }
           : clip
       ),
       hasPlayed: false,
@@ -226,7 +221,7 @@ class ListenPage extends React.Component<Props, State> {
             !hasPlayed && (
               <Localized
                 id={
-                  clipIndex === SET_COUNT - 1
+                  clipIndex === clips.length - 1
                     ? 'listen-last-time-instruction'
                     : [
                         'listen-instruction',

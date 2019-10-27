@@ -13,7 +13,6 @@ import URLS from '../../../urls';
 import { LocaleLink, useLocale } from '../../locale-helpers';
 import { CheckIcon, MicIcon, PlayOutlineIcon } from '../../ui/icons';
 import { Button, LinkButton, TextButton } from '../../ui/ui';
-import { SET_COUNT } from './contribution';
 import Modal, { ModalProps } from '../../modal/modal';
 
 import './success.css';
@@ -70,9 +69,11 @@ function Success({
   getString,
   onReset,
   type,
+  setCount,
 }: {
   type: 'speak' | 'listen';
   onReset: () => any;
+  setCount: number;
 } & LocalizationProps) {
   const api = useAPI();
   const account = useAccount();
@@ -117,7 +118,7 @@ function Success({
       ? api.fetchDailyClipsCount()
       : api.fetchDailyVotesCount()
     ).then(value => {
-      setContributionCount(value + SET_COUNT);
+      setContributionCount(value + setCount);
     });
     return () => {
       killAnimation.current = true;
@@ -170,7 +171,7 @@ function Success({
         <Localized
           id="clips-with-count"
           bold={<b />}
-          $count={SET_COUNT + '/' + SET_COUNT}>
+          $count={setCount + '/' + setCount}>
           <span className="text" />
         </Localized>
       </div>
@@ -218,7 +219,7 @@ function Success({
 
       <ContributeMoreButton>
         {type === 'speak' ? <MicIcon /> : <PlayOutlineIcon />}
-        <Localized id="contribute-more" $count={SET_COUNT}>
+        <Localized id="contribute-more" $count={setCount}>
           <span />
         </Localized>
       </ContributeMoreButton>

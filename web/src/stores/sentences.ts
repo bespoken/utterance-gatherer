@@ -2,8 +2,6 @@ import { Action as ReduxAction, Dispatch } from 'redux';
 const contributableLocales = require('../../../locales/contributable.json') as string[];
 import StateTree from './tree';
 
-const CACHE_SET_COUNT = 10;
-
 export namespace Sentences {
   export interface Sentence {
     id: string;
@@ -41,14 +39,9 @@ export namespace Sentences {
     ) => {
       try {
         const state = getState();
-        if (Object.keys(localeSentences(state)).length >= CACHE_SET_COUNT) {
-          return;
-        }
+
         const contractor = state.bespokenDetails.contractor;
-        const newSentences = await state.api.fetchRandomSentences(
-          CACHE_SET_COUNT,
-          contractor
-        );
+        const newSentences = await state.api.fetchRandomSentences(contractor);
         dispatch({
           type: ActionType.REFILL,
           sentences: newSentences,

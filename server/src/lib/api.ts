@@ -167,6 +167,7 @@ export default class API {
 
   getRandomSentences = async (request: Request, response: Response) => {
     const { client_id, params, query } = request;
+    const { NUMBER_SENTENCES } = getConfig();
     if (!query.contractor) {
       response
         .status(500)
@@ -175,7 +176,7 @@ export default class API {
     const sentences = await this.model.findEligibleSentences(
       client_id,
       params.locale,
-      parseInt(request.query.count, 10) || 1,
+      NUMBER_SENTENCES,
       query.contractor
     );
 
