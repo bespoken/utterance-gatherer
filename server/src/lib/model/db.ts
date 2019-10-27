@@ -163,7 +163,6 @@ export default class DB {
   async findClipsWithFewVotes(
     client_id: string,
     locale: string,
-    count: number,
     contractor: string,
     assignmentId: string
   ): Promise<DBClipWithVoters[]> {
@@ -185,10 +184,7 @@ export default class DB {
                 WHERE votes.clip_id = clips.id AND client_id = ?
               )
         ORDER BY sentences.clips_count ASC, clips.created_at ASC
-        LIMIT ?
       ) t
-      ORDER BY RAND()
-      LIMIT ?
     `,
       [
         await getLocaleId(locale),
@@ -196,8 +192,6 @@ export default class DB {
         contractor,
         assignmentId,
         client_id,
-        SHUFFLE_SIZE,
-        count,
       ]
     );
     for (const clip of clips) {

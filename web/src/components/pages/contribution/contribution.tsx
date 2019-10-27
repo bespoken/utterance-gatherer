@@ -32,8 +32,6 @@ import * as cx from 'classnames';
 
 import './contribution.css';
 
-export const SET_COUNT = 5;
-
 export interface ContributionPillProps {
   isOpen: boolean;
   key: any;
@@ -311,10 +309,9 @@ class ContributionPage extends React.Component<Props, State> {
   }
 
   renderClipCount() {
-    const { activeIndex, isSubmitted } = this.props;
-    return (
-      (isSubmitted ? SET_COUNT : activeIndex + 1 || SET_COUNT) + '/' + SET_COUNT
-    );
+    const { activeIndex, isSubmitted, sentences } = this.props;
+    const count = sentences.length;
+    return (isSubmitted ? count : activeIndex + 1 || count) + '/' + count;
   }
 
   renderContent() {
@@ -339,7 +336,7 @@ class ContributionPage extends React.Component<Props, State> {
 
     return isSubmitted ? (
       showSection ? (
-        <Success onReset={onReset} type={type} />
+        <Success onReset={onReset} type={type} setCount={sentences.length} />
       ) : (
         <MturkSuccess />
       )
@@ -359,7 +356,7 @@ class ContributionPage extends React.Component<Props, State> {
                 <div className="cards">
                   {sentences.map((sentence, i) => {
                     const activeSentenceIndex = this.isDone
-                      ? SET_COUNT - 1
+                      ? sentences.length - 1
                       : activeIndex;
                     const isActive = i === activeSentenceIndex;
                     return (

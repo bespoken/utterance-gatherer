@@ -4,8 +4,6 @@ const contributableLocales = require('../../../locales/contributable.json') as s
 import StateTree from './tree';
 import { User } from './user';
 
-const MIN_CACHE_SIZE = 10;
-
 export namespace Clips {
   export interface Clip {
     id: string;
@@ -54,9 +52,6 @@ export namespace Clips {
       getState: () => StateTree
     ) => {
       const state = getState();
-      if (localeClips(state).clips.length > MIN_CACHE_SIZE) {
-        return;
-      }
 
       try {
         dispatch({ type: ActionType.LOAD });
@@ -66,7 +61,6 @@ export namespace Clips {
           'mturkDetails.assignmentId'
         );
         const clips = await state.api.fetchRandomClips(
-          MIN_CACHE_SIZE,
           contractor,
           assignmentId
         );
@@ -156,7 +150,7 @@ export namespace Clips {
         const clips = action.clips
           ? localeState.clips.concat(action.clips)
           : localeState.clips;
-        const next = localeState.next || clips.shift();
+        const next = localeState.next;
         return {
           ...state,
           [locale]: {

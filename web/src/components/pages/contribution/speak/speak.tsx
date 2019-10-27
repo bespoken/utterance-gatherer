@@ -28,10 +28,7 @@ import TermsModal from '../../../terms-modal';
 import { CheckIcon, FontIcon, MicIcon, StopIcon } from '../../../ui/icons';
 import { Button, TextButton } from '../../../ui/ui';
 import { getItunesURL, isFirefoxFocus, isNativeIOS } from '../../../../utility';
-import ContributionPage, {
-  ContributionPillProps,
-  SET_COUNT,
-} from '../contribution';
+import ContributionPage, { ContributionPillProps } from '../contribution';
 import {
   RecordButton,
   RecordingStatus,
@@ -155,9 +152,7 @@ class SpeakPage extends React.Component<Props, State> {
 
     if (props.sentences.length > 0) {
       return {
-        clips: props.sentences
-          .slice(0, SET_COUNT)
-          .map(sentence => ({ recording: null, sentence })),
+        clips: props.sentences.map(sentence => ({ recording: null, sentence })),
       };
     }
 
@@ -476,7 +471,7 @@ class SpeakPage extends React.Component<Props, State> {
   };
 
   render() {
-    const { getString, user, mturkDetails } = this.props;
+    const { getString, user, mturkDetails, sentences } = this.props;
     const {
       clips,
       isSubmitted,
@@ -572,7 +567,7 @@ class SpeakPage extends React.Component<Props, State> {
                 id={
                   this.isRecording
                     ? 'record-stop-instruction'
-                    : recordingIndex === SET_COUNT - 1
+                    : recordingIndex === sentences.length - 1
                     ? 'record-last-instruction'
                     : ['record-instruction', 'record-again-instruction'][
                         recordingIndex
