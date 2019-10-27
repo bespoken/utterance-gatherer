@@ -168,6 +168,10 @@ export default class API {
   getRandomSentences = async (request: Request, response: Response) => {
     const { client_id, params, query } = request;
     const { NUMBER_SENTENCES } = getConfig();
+    console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
+    console.log('NUMBER_SENTENCES', NUMBER_SENTENCES);
+    console.log('NUMBER_SENTENCES env', process.env.NUMBER_SENTENCES);
+    console.log('PPPPPPPPPPPPPPPPPPPPPPPPPPPPP');
     if (!query.contractor) {
       response
         .status(500)
