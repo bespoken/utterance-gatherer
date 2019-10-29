@@ -36,14 +36,12 @@ export default class Bucket {
   async getRandomClips(
     client_id: string,
     locale: string,
-    count: number,
     contractor: string,
     assignmentId: string
   ): Promise<{ id: number; glob: string; text: string; sound: string }[]> {
     const clips = await this.model.findEligibleClips(
       client_id,
       locale,
-      count,
       contractor,
       assignmentId
     );
