@@ -323,15 +323,9 @@
   }
 
   & .primary-buttons {
-    margin-top: 23px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
-    @media (--md-up) {
-      margin-top: 12vh;
-    }
 
     & canvas {
       position: absolute;
@@ -389,47 +383,6 @@
         }
       }
     }
-
-    & .submit {
-      margin: 0;
-
-      @media (--sm-down) {
-        display: none;
-      }
-
-      &.disabled {
-        & button {
-          cursor: default;
-          color: var(--warm-grey);
-          background: var(--desert-storm);
-        }
-
-        & .background {
-          display: none;
-        }
-      }
-
-      & button {
-        border: none;
-        border-radius: 50px;
-        width: 178px;
-        height: 57px;
-        color: var(--white);
-        background: var(--blue);
-        text-transform: uppercase;
-        font-family: var(--base-font-family);
-        font-weight: 600;
-      }
-
-      & .background {
-        border-radius: 50px;
-        margin-top: 10px;
-        width: 187px;
-        height: 63px;
-        background-image: linear-gradient(to left, #88d1f1, #b1b5e5);
-        opacity: 0;
-      }
-    }
   }
 
   &.submittable {
@@ -469,11 +422,6 @@
 
       & .buttons {
         justify-content: center;
-      }
-
-      & .submit {
-        display: flex;
-        height: 46px;
       }
     }
   }
@@ -590,6 +538,53 @@
     & path {
       fill: var(--white);
     }
+  }
+}
+
+.submit {
+  display: flex;
+  height: 46px;
+  margin: 0;
+
+  &.submitTop {
+    margin-left: 10px;
+  }
+
+  @media (--sm-down) {
+    display: none;
+  }
+
+  &.disabled {
+    & button {
+      cursor: default;
+      color: var(--warm-grey);
+      background: var(--grey);
+    }
+
+    & .background {
+      display: none;
+    }
+  }
+
+  & button {
+    border: none;
+    border-radius: 50px;
+    width: 178px;
+    height: 57px;
+    color: var(--white);
+    background: var(--blue);
+    text-transform: uppercase;
+    font-family: var(--base-font-family);
+    font-weight: 600;
+  }
+
+  & .background {
+    border-radius: 50px;
+    margin-top: 10px;
+    width: 187px;
+    height: 63px;
+    background-image: linear-gradient(to left, #88d1f1, #b1b5e5);
+    opacity: 0;
   }
 }
 

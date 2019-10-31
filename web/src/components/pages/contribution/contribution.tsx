@@ -393,6 +393,24 @@ class ContributionPage extends React.Component<Props, State> {
                         $count={this.renderClipCount()}>
                         <span className="text" />
                       </Localized>
+                      {onSubmit && (
+                        <Tooltip
+                          arrow
+                          disabled={!this.isDone}
+                          open={isFirstSubmit || undefined}
+                          title={getString('record-submit-tooltip', {
+                            actionType: getString('action-tap'),
+                          })}>
+                          <Localized id="submit-form-action">
+                            <PrimaryButton
+                              className="submit submitTop"
+                              disabled={!this.isDone}
+                              onClick={onSubmit}
+                              type="submit"
+                            />
+                          </Localized>
+                        </Tooltip>
+                      )}
                     </div>
                   )}
                   {this.isDone && (
