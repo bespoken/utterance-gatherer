@@ -2,6 +2,10 @@
 
 .contribution-wrapper {
   overflow: hidden;
+
+  &.mturkPaddingTop {
+    padding-top: 50px;
+  }
 }
 
 .contribution-wrapper,
@@ -306,7 +310,7 @@
       @media (--md-up) {
         margin-top: 0;
         margin-inline-start: auto;
-        width: max-content;
+        width: 82%;
         flex-direction: column;
         justify-content: flex-start;
       }
@@ -326,6 +330,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
 
     & canvas {
       position: absolute;

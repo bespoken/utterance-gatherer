@@ -228,7 +228,9 @@ class ContributionPage extends React.Component<Props, State> {
 
     return (
       <div
-        className="contribution-wrapper"
+        className={cx('contribution-wrapper', {
+          mturkPaddingTop: !showSection,
+        })}
         onClick={() => this.selectPill(null)}>
         {showShareModal && (
           <ShareModal onRequestClose={this.toggleShareModal} />
