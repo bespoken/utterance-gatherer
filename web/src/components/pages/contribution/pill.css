@@ -1,121 +1,121 @@
 @import url('../../vars.css');
 
 .pill {
-    border-radius: 29px;
-    box-sizing: border-box;
+  border-radius: 29px;
+  box-sizing: border-box;
 
-    width: 46px;
-    height: 46px;
+  width: 46px;
+  height: 46px;
 
-    flex-shrink: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+
+  @media (--md-up) {
+    margin-top: 20px;
+    margin-inline-start: auto;
+    padding: 0 12px;
+    width: 100%;
+    height: 57px;
+
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  & .num {
     display: flex;
-    flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
 
-    overflow: hidden;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-weight: 600;
+
+    color: var(--near-black);
+  }
+
+  & .contents {
+    display: none !important;
+    height: 100%;
+    align-items: center;
 
     @media (--md-up) {
-        margin-top: 20px;
-        margin-inline-start: auto;
-        padding: 0 12px;
-        width: 100%;
-        height: 57px;
-
-        display: flex !important;
-        flex-direction: row;
-        justify-content: space-between;
-
-        &:first-child {
-            margin-top: 0;
-        }
+      display: flex !important;
     }
+  }
+
+  &.active {
+    border: solid 2px var(--grey);
+    background: var(--white);
 
     & .num {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      color: white;
+      background: var(--blue);
 
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        font-weight: 600;
+      @media (--md-up) {
+        background: var(--warm-grey);
+      }
+    }
+  }
 
-        color: var(--near-black);
+  &.done {
+    background: var(--white);
+    border: solid 2px var(--grey);
+
+    @media (--md-up) {
+      border: none;
+      padding-inline-start: 6px;
+
+      &.closed {
+        padding-inline-start: 0;
+      }
+
+      & .num {
+        background: var(--desert-storm);
+        border: solid 1px #f5f4f3;
+      }
     }
 
     & .contents {
-        display: none !important;
-        height: 100%;
-        align-items: center;
+      display: flex;
+    }
+  }
 
-        @media (--md-up) {
-            display: flex !important;
-        }
+  &.pending {
+    & .num {
+      background: var(--white);
+    }
+  }
+
+  &.open {
+    justify-content: flex-end;
+
+    @media (--sm-down) {
+      width: auto;
     }
 
-    &.active {
-        border: solid 2px var(--grey);
-        background: var(--white);
-
-        & .num {
-            color: white;
-            background: var(--blue);
-
-            @media (--md-up) {
-                background: var(--warm-grey);
-            }
-        }
+    & .contents {
+      display: flex !important;
     }
 
-    &.done {
-        background: var(--white);
-        border: solid 2px var(--grey);
+    & .num {
+      border: solid 1px #f5f4f3;
+      margin: 7px;
+      background: var(--desert-storm);
 
-        @media (--md-up) {
-            border: none;
-            padding-inline-start: 6px;
-
-            &.closed {
-                padding-inline-start: 0;
-            }
-
-            & .num {
-                background: var(--desert-storm);
-                border: solid 1px #f5f4f3;
-            }
-        }
-
-        & .contents {
-            display: flex;
-        }
+      @media (--md-up) {
+        margin: 0;
+      }
     }
-
-    &.pending {
-        & .num {
-            background: var(--white);
-        }
-    }
-
-    &.open {
-        justify-content: flex-end;
-
-        @media (--sm-down) {
-            width: auto;
-        }
-
-        & .contents {
-            display: flex !important;
-        }
-
-        & .num {
-            border: solid 1px #f5f4f3;
-            margin: 7px;
-            background: var(--desert-storm);
-
-            @media (--md-up) {
-                margin: 0;
-            }
-        }
-    }
+  }
 }
