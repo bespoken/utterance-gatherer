@@ -1,4 +1,5 @@
 import { Action as ReduxAction, Dispatch } from 'redux';
+import * as _ from 'lodash';
 const contributableLocales = require('../../../locales/contributable.json') as string[];
 import StateTree from './tree';
 
@@ -41,7 +42,16 @@ export namespace Sentences {
         const state = getState();
 
         const contractor = state.bespokenDetails.contractor;
-        const newSentences = await state.api.fetchRandomSentences(contractor);
+        const numSentences = _.get(
+          state.bespokenDetails,
+          'mturkDetails.numSentences'
+        );
+        const filters = _.get(state.bespokenDetails, 'mturkDetails.filters');
+        const newSentences = await state.api.fetchRandomSentences(
+          contractor,
+          numSentences,
+          filters
+        );
         dispatch({
           type: ActionType.REFILL,
           sentences: newSentences,

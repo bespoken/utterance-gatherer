@@ -6,6 +6,8 @@ export namespace BespokenDetails {
     hitId: string;
     workerId: string;
     turkSubmitTo: string;
+    numSentences: string;
+    filters: string;
   }
 
   export interface State {
@@ -50,6 +52,8 @@ export namespace BespokenDetails {
         hitId: '',
         workerId: '',
         turkSubmitTo: '',
+        numSentences: '',
+        filters: '',
       },
       isMturkContext: false,
     },

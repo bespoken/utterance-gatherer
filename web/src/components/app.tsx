@@ -101,17 +101,29 @@ let LocalizedPage: any = class extends React.Component<
 
   async componentDidMount() {
     const params = queryString.parse(this.props.location.search);
-    let { contractor, assignmentId, hitId, workerId, turkSubmitTo } = params;
+    let {
+      contractor,
+      assignmentId,
+      hitId,
+      workerId,
+      turkSubmitTo,
+      numSentences,
+      filters,
+    } = params;
     contractor = `${params.contractor || ''}`;
     assignmentId = `${params.assignmentId || ''}`;
     hitId = `${params.hitId || ''}`;
     workerId = `${params.workerId || ''}`;
     turkSubmitTo = `${params.turkSubmitTo || ''}`;
+    numSentences = `${params.numSentences || ''}`;
+    filters = `${params.filters || ''}`;
     const mturkDetails: BespokenDetails.MturkDetails = {
       assignmentId,
       hitId,
       workerId,
       turkSubmitTo,
+      numSentences,
+      filters,
     };
 
     this.props.addContractor(contractor);
