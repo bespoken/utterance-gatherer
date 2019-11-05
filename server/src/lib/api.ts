@@ -1,5 +1,5 @@
 import * as bodyParser from 'body-parser';
-import { MD5 } from 'crypto-js';
+import { MD5, AES, enc } from 'crypto-js';
 import { NextFunction, Request, Response, Router } from 'express';
 import * as sendRequest from 'request-promise-native';
 import { UserClient as UserClientType } from 'common/user-clients';
@@ -15,6 +15,7 @@ import Clip from './clip';
 import Prometheus from './prometheus';
 import { ClientParameterError } from './utility';
 import { PassThrough } from 'stream';
+import * as queryString from 'query-string';
 import { S3 } from 'aws-sdk';
 import { AWS } from './aws';
 import Bucket from './bucket';
@@ -167,7 +168,15 @@ export default class API {
 
   getRandomSentences = async (request: Request, response: Response) => {
     const { client_id, params, query } = request;
-    if (!query.contractor || !query.numSentences) {
+    let { filters, contractor, numSentences } = query;
+    const { ENCRYPT_SECRET_KEY } = getConfig();
+    if (filters) {
+      const urlParams = AES.decrypt(filters, ENCRYPT_SECRET_KEY);
+      const decryptedData = urlParams.toString(enc.Utf8);
+      const params = queryString.parse(decryptedData);
+      contractor = params.contractor;
+      numSentences = params.numSentences;
+    } else if (!contractor || !numSentences) {
       response.status(500).json({
         error: 'the contractor and numSentences parameters are required',
       });
@@ -175,8 +184,8 @@ export default class API {
     const sentences = await this.model.findEligibleSentences(
       client_id,
       params.locale,
-      parseInt(query.numSentences),
-      query.contractor
+      parseInt(numSentences),
+      contractor
     );
 
     response.json(sentences);

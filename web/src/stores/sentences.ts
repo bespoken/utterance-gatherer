@@ -46,9 +46,11 @@ export namespace Sentences {
           state.bespokenDetails,
           'mturkDetails.numSentences'
         );
+        const filters = _.get(state.bespokenDetails, 'mturkDetails.filters');
         const newSentences = await state.api.fetchRandomSentences(
           contractor,
-          numSentences
+          numSentences,
+          filters
         );
         dispatch({
           type: ActionType.REFILL,

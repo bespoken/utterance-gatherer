@@ -7,6 +7,7 @@ export namespace BespokenDetails {
     workerId: string;
     turkSubmitTo: string;
     numSentences: string;
+    filters: string;
   }
 
   export interface State {
@@ -52,6 +53,7 @@ export namespace BespokenDetails {
         workerId: '',
         turkSubmitTo: '',
         numSentences: '',
+        filters: '',
       },
       isMturkContext: false,
     },

@@ -91,9 +91,10 @@ export default class API {
 
   fetchRandomSentences(
     contractor: string = '',
-    numSentences = ''
+    numSentences = '',
+    filters = ''
   ): Promise<Sentences.Sentence[]> {
-    const query = queryString.stringify({ contractor, numSentences });
+    const query = queryString.stringify({ contractor, numSentences, filters });
     return this.fetch(`${this.getLocalePath()}/sentences?${query}`);
   }
 

@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const queryString = require('query-string');
+const crypto = require('crypto-js/aes');
 
 require('dotenv').config();
 
@@ -17,6 +18,7 @@ const {
   MTURK_KEYWORDS,
   MTURK_MAX_ASSIGNMENTS,
   MTURK_NUMBER_SENTENCES,
+  ENCRYPT_SECRET_KEY,
 } = process.env;
 
 AWS.config = {
@@ -45,16 +47,19 @@ mturk.getAccountBalance((err, data) => {
 const externalQuestionSchema =
   'http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2006-07-14/ExternalQuestion.xsd';
 
-const urlParams = queryString.stringify({
+let urlParams = queryString.stringify({
   contractor: MTURK_CONTRACTOR,
   numSentences: MTURK_NUMBER_SENTENCES,
 });
+
+urlParams = crypto.encrypt(urlParams, ENCRYPT_SECRET_KEY).toString();
+
 const externalUrlProd = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak`;
 // this should be commonvoice-dev(in the future)
 const externalUrlDev = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak`;
 
 let externalEndpoint = isProd ? externalUrlProd : externalUrlDev;
-externalEndpoint = `${externalEndpoint}?${urlParams}`.replace('&', '&amp;');
+externalEndpoint = `${externalEndpoint}?filters=${urlParams}`;
 
 const externalQuestion = `<?xml version="1.0" encoding="UTF-8"?>
 <ExternalQuestion xmlns="${externalQuestionSchema}">

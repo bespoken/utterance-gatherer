@@ -108,6 +108,7 @@ let LocalizedPage: any = class extends React.Component<
       workerId,
       turkSubmitTo,
       numSentences,
+      filters,
     } = params;
     contractor = `${params.contractor || ''}`;
     assignmentId = `${params.assignmentId || ''}`;
@@ -115,12 +116,14 @@ let LocalizedPage: any = class extends React.Component<
     workerId = `${params.workerId || ''}`;
     turkSubmitTo = `${params.turkSubmitTo || ''}`;
     numSentences = `${params.numSentences || ''}`;
+    filters = `${params.filters || ''}`;
     const mturkDetails: BespokenDetails.MturkDetails = {
       assignmentId,
       hitId,
       workerId,
       turkSubmitTo,
       numSentences,
+      filters,
     };
 
     this.props.addContractor(contractor);

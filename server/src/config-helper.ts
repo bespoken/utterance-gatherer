@@ -30,6 +30,7 @@ export type CommonVoiceConfig = {
   IMPORT_SENTENCES: boolean;
   REDIS_URL: string;
   BUCKET_SENTENCES_NAME: string;
+  ENCRYPT_SECRET_KEY: string;
 };
 
 const DEFAULTS: CommonVoiceConfig = {
@@ -63,6 +64,7 @@ const DEFAULTS: CommonVoiceConfig = {
   IMPORT_SENTENCES: true,
   REDIS_URL: null,
   BUCKET_SENTENCES_NAME: process.env.BUCKET_SENTENCES_NAME || '',
+  ENCRYPT_SECRET_KEY: process.env.ENCRYPT_SECRET_KEY || '',
 };
 
 let injectedConfig: CommonVoiceConfig;
