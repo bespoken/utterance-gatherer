@@ -30,7 +30,6 @@ export type CommonVoiceConfig = {
   IMPORT_SENTENCES: boolean;
   REDIS_URL: string;
   BUCKET_SENTENCES_NAME: string;
-  NUMBER_SENTENCES: number;
 };
 
 const DEFAULTS: CommonVoiceConfig = {
@@ -64,7 +63,6 @@ const DEFAULTS: CommonVoiceConfig = {
   IMPORT_SENTENCES: true,
   REDIS_URL: null,
   BUCKET_SENTENCES_NAME: process.env.BUCKET_SENTENCES_NAME || '',
-  NUMBER_SENTENCES: parseInt(process.env.NUMBER_SENTENCES, 10) || 5,
 };
 
 let injectedConfig: CommonVoiceConfig;

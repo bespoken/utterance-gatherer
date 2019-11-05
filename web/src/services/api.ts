@@ -89,8 +89,11 @@ export default class API {
     return this.getLocalePath() + '/clips';
   }
 
-  fetchRandomSentences(contractor: string = ''): Promise<Sentences.Sentence[]> {
-    const query = queryString.stringify({ contractor });
+  fetchRandomSentences(
+    contractor: string = '',
+    numSentences = ''
+  ): Promise<Sentences.Sentence[]> {
+    const query = queryString.stringify({ contractor, numSentences });
     return this.fetch(`${this.getLocalePath()}/sentences?${query}`);
   }
 

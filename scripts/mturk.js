@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const queryString = require('query-string');
 
 require('dotenv').config();
 
@@ -15,6 +16,7 @@ const {
   MTURK_TITLE,
   MTURK_KEYWORDS,
   MTURK_MAX_ASSIGNMENTS,
+  MTURK_NUMBER_SENTENCES,
 } = process.env;
 
 AWS.config = {
@@ -42,11 +44,17 @@ mturk.getAccountBalance((err, data) => {
 // https://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_SchemaLocationArticle.html
 const externalQuestionSchema =
   'http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2006-07-14/ExternalQuestion.xsd';
-const externalUrlProd = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak?contractor=${MTURK_CONTRACTOR}`;
-// this should be commonvoice-dev
-const externalUrlDev = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak?contractor=${MTURK_CONTRACTOR}`;
 
-const externalEndpoint = isProd ? externalUrlProd : externalUrlDev;
+const urlParams = queryString.stringify({
+  contractor: MTURK_CONTRACTOR,
+  numSentences: MTURK_NUMBER_SENTENCES,
+});
+const externalUrlProd = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak`;
+// this should be commonvoice-dev(in the future)
+const externalUrlDev = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak`;
+
+let externalEndpoint = isProd ? externalUrlProd : externalUrlDev;
+externalEndpoint = `${externalEndpoint}?${urlParams}`.replace('&', '&amp;');
 
 const externalQuestion = `<?xml version="1.0" encoding="UTF-8"?>
 <ExternalQuestion xmlns="${externalQuestionSchema}">
