@@ -9,31 +9,25 @@ import { getConfig } from '../config-helper';
 let serverHarness: ServerHarness;
 let schema: Schema;
 
-beforeAll(async () => {
-  serverHarness = new ServerHarness();
-  schema = new Schema(serverHarness.mysql);
-  await serverHarness.run();
-});
+// Jest issue, afterAll and beforeAll run anyway https://github.com/facebook/jest/issues/6166
+// beforeAll(async () => {
+//   serverHarness = new ServerHarness();
+//   schema = new Schema(serverHarness.mysql);
+//   await serverHarness.run();
+// });
 
 beforeEach(async () => {
   await serverHarness.emptyDatabase();
 });
 
-afterAll(async () => {
-  if (serverHarness) {
-    await serverHarness.resetDatabase();
-    serverHarness.done();
-  }
-});
+// Jest issue, afterAll and beforeAll run anyway https://github.com/facebook/jest/issues/6166
+// afterAll(async () => {
+//   if (serverHarness) {
+//     await serverHarness.resetDatabase();
+//     serverHarness.done();
+//   }
+// });
 
-// For Travis tests on PRs, we don't have AWS credentials,
-// so we will skip this S3 upload test in this case.
-/*(AWS.getS3().config.credentials ? test : test.skip)*/
-
-/**
- * With the way locales are being imported with the sentences,
- * this has become very hard to test realistically
- */
 test.skip('recording is uploaded and inserted into the db', async () => {
   expect(await serverHarness.getClipCount()).toBe(0);
   const sentence = 'Wubba lubba dub dub!';

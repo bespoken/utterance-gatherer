@@ -76,7 +76,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack --mode=development --watch --display=errors-only",
-    "test": "yarn build"
+    "test": "echo 'test-cafe will be implemented here in the future' "
   },
   "browserslist": [
     "Firefox ESR",

@@ -5,6 +5,8 @@ web/index.html
 server/js/
 server/upload/
 server/data/
+server/coverage
+server/yarn-error.log
 xcuserdata/
 .ignore
 .ignored_files/

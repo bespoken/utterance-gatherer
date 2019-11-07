@@ -34,6 +34,19 @@ steps: &default-steps
         fi
 version: 2.0
 jobs:
+  test:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run:
+          name: Test and Coverage
+          command: |
+            yarn
+            yarn codecov
+      - store_artifacts:
+          path: server/coverage
+          prefix: coverage
   deploy-prod:
     docker:
       - image: circleci/node:10
@@ -46,7 +59,13 @@ workflows:
   version: 2
   test-n-deploy:
     jobs:
+      - test:
+          filters:
+            tags:
+              only: /.*/
       - deploy-prod:
+          requires:
+            - test
           filters:
             tags:
               only: /aws-prod-.*/
