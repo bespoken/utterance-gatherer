@@ -53,6 +53,7 @@ let urlParams = queryString.stringify({
 });
 
 urlParams = crypto.encrypt(urlParams, ENCRYPT_SECRET_KEY).toString();
+urlParams = Buffer.from(urlParams).toString('base64');
 
 const externalUrlProd = `https://commonvoice.bespoken.tools/${MTURK_LOCALE}/speak`;
 // this should be commonvoice-dev(in the future)

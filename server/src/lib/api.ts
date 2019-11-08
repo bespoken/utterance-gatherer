@@ -171,7 +171,8 @@ export default class API {
     let { filters, contractor, numSentences } = query;
     const { ENCRYPT_SECRET_KEY } = getConfig();
     if (filters) {
-      const urlParams = AES.decrypt(filters, ENCRYPT_SECRET_KEY);
+      const urlEncode = Buffer.from(filters, 'base64').toString();
+      const urlParams = AES.decrypt(urlEncode, ENCRYPT_SECRET_KEY);
       const decryptedData = urlParams.toString(enc.Utf8);
       const params = queryString.parse(decryptedData);
       contractor = params.contractor;
