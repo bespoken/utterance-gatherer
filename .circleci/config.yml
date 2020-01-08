@@ -20,8 +20,8 @@ steps: &default-steps
               --containerPort 3000 \
               --image bespoken/commonvoice:${CIRCLE_TAG} \
               --hostname ${CONTAINER_NAME}.bespoken.tools \
-              --cpu 1024 \
-              --memory 2048 \
+              --cpu 256 \
+              --memory 512 \
               --env env="${ENV}" \
               --env DB_ROOT_USER="${DB_ROOT_USER}" \
               --env DB_ROOT_PASS="${DB_ROOT_PASS}" \
