@@ -2,6 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "build": "tsc",
+    "migrate": "cd src/lib/model/db && db-migrate",
+    "start": "tsc-watch --onSuccess \"yarn start:prod\"",
+    "start:prod": "cd .. && node server/js/server.js",
+    "test": "yarn build && jest --forceExit --config=jest.config.js --runInBand",
+    "coverage": "yarn test --coverage"
+  },
   "dependencies": {
     "@types/commonmark": "^0.27.4",
     "@types/crypto-js": "^3.1.43",
@@ -61,12 +69,5 @@
     "nodemon": "^1.19.1",
     "ts-jest": "24.0.2",
     "tsc-watch": "^2.2.1"
-  },
-  "scripts": {
-    "build": "tsc",
-    "migrate": "cd src/lib/model/db && db-migrate",
-    "start": "tsc-watch --onSuccess \"yarn start:prod\"",
-    "start:prod": "cd .. && node server/js/server.js",
-    "test": "jest --forceExit --config=jest.config.js"
   }
 }
